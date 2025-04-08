@@ -21,8 +21,8 @@ function addProducts(couches) {                                                 
     // const name = couches[0].name
     // const description = couches[0].description
 
-    couches.forEach((couch) => {                                                   // Methode forEach qui ici signifie que pour chaque canapé on récupère les données qui lui sont associés au sein de "couches" --> (id, image, altTxt,name, description) et on les affichent sur la page web... 
-        const { _id, imageUrl, altTxt, name, description } = couch                 
+    couches.forEach((couch) => {                                                   // Methode forEach qui ici signifie que pour chaque canapé on récupère les données qui lui sont associés au sein de "couches" --> (id, image, altTxt,name, description) =
+        const { _id, imageUrl, altTxt, name, description } = couch                 // On utilise la destructuration pour récupérer les données de l'API. On crée une variable pour chaque donnée que l'on va utiliser. 
         const anchor = makeAnchor(_id)                                             // On appelle la fonction makeAnchor qui va nous permettre de créer un lien vers le produit. On lui passe en paramètre l'id du produit.
         const article = document.createElement("article")                          // On crée un élément <article> et on l'assigne à la variable article. On crée le "<article>...</article>"
         const image = makeImage(imageUrl, altTxt)                                  // On appelle la fonction makeImage qui va nous permettre de créer une image. On lui passe en paramètre l'url de l'image et le texte alternatif.
