@@ -15,7 +15,7 @@ fetch("http://localhost:3000/api/products")                                     
 
 
 function addProducts(couches) {                                                    // On crée une fonction addProducts qui va nous permettre d'ajouter les produits à la page. On lui passe en paramètre les données de l'API (couches).
-    // const _id = couches[0]._id                                                  // 
+    // const _id = couches[0]._id                                                   
     // const imageUrl = couches[0].imageUrl
     // const altTxt = couches[0].altTxt
     // const name = couches[0].name
@@ -45,7 +45,8 @@ function appendElementsToArticle(article, array) {                              
 
 function makeAnchor(id) {                                                          // 1.On crée une fonction qui va nous permettre de créer un lien (un <a>) vers le produit qu'on cible (en cliquant dessus par exemple)                
     const anchor = document.createElement("a")                                     // On crée un élément <a> (un lien) et on l'assigne à la variable anchor. On crée le "<a>...</a>"
-    anchor.href = "./product.html?id=" + id                                        // On y incorpore le lien vers le produit comme dans le html de tel sorte que : "<a href="./product.html?id=42">". On ajoute l'id du produit à la fin de l'url pour pouvoir le récupérer dans la page produit.  
+    anchor.href = "./product.html?id=" + id                                        // On y incorpore le lien vers le produit comme dans le html de tel sorte que : "<a href="./product.html?id=42">". On ajoute "id" à la fin pour qu'on soit redirigé vers un artcicle bien précis grace aux paramètres de l'url (UrlParams) fournis par "id" et qui se situent après le point d'interrogation (?). (Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83)
+    return anchor
 }
 
 function appendArticleToAnchor(anchor, article) {                                  // 2. On va chercher l'élément qui va encadrer la génération de l'article
@@ -62,7 +63,6 @@ function makeImage(imageUrl, altTxt) {                                          
     image.alt = altTxt                                                             // On y incorpore le texte alternatif de l'image comme dans le html de tel sorteque : "<img src="..." alt="Photo d'un canapé bleu, deux places">"
     image.removeAttribute("title")                                                 // On supprime l'attribut title de l'image car il n'est pas nécessaire. On utilise la méthode removeAttribute pour supprimer un attribut d'un élément.
     image.removeAttribute("style")                                                 // On supprime l'attribut style de l'image car il n'est pas nécessaire. On utilise la méthode removeAttribute pour supprimer un attribut d'un élément.
-    image.classList.add("productImg")                                              // On ajoute une classe à l'image pour lui donner un style. On utilise la méthode classList.add pour ajouter une classe à un élément.
     return image
 }
 
