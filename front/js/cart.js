@@ -213,22 +213,22 @@ function isEmailInvalid() {                                                     
     return false
 }
 
-function isFormInvalid() {                                                                                   // Gestion de la validation du formulaire (vérification que tous les champs sont remplis).
+function isFormInvalid() {                                                                                    // Gestion de la validation du formulaire (vérification que tous les champs sont remplis).
     const form = document.querySelector(".cart__order__form")
-    const inputs = form.querySelectorAll("input")                                                            // On recupere tous les inputs du formulaire
-    inputs.forEach((input) => {                                                                              // Pour chaque input...
-        if (input.value === "") {                                                                            // ...si la value est "null" dans l'une d'elles...
-            alert("Please fill all the fields")                                                              // ...message d'alerte.
-            return true                                                                                      // + return true qui signifie "Effectivement,le formumaire est invalide" 
+    const inputs = form.querySelectorAll("input")                                                             // On recupere tous les inputs du formulaire
+    inputs.forEach((input) => {                                                                               // Pour chaque input...
+        if (input.value === "") {                                                                             // ...si la value est "null" dans l'une d'elles...
+            alert("Please fill all the fields")                                                               // ...message d'alerte.
+            return true                                                                                       // + return true qui signifie "Effectivement,le formumaire est invalide" 
         }
-        return false                                                                                         // Sinon return false : non le formulaire n'est pas invalide
+        return false                                                                                          // Sinon return false : non le formulaire n'est pas invalide
     })
 
 }
 
-function makeRequestBody() {                                                                                 // Gestion de la création du corps de la requête (body) à envoyer à l'API contenant les informations de contact et les produits sélectionnés par l'utilisateur.
+function makeRequestBody() {                                                                                  // Gestion de la création du corps de la requête (body) à envoyer à l'API contenant les informations de contact et les produits sélectionnés par l'utilisateur.
     const form = document.querySelector(".cart__order__form")
-    const firstName = form.elements.firstName.value                                                          // On récupère la valeur de chaque input 
+    const firstName = form.elements.firstName.value                                                           // On récupère la valeur de chaque input 
     const lastName = form.elements.lastName.value
     const address = form.elements.address.value
     const city = form.elements.city.value
