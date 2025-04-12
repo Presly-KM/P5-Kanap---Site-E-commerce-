@@ -5,7 +5,7 @@ const id = urlParams.get("id")                                                  
 
 
 if (id != null) {                                                                   // On crée ici une variable globale pour gérer le problème dans la fonction "saveorder" concernant le localStorage. si l'id existe...
-    let itemPrice = 0                                                               // On met ici le prix(Itemprice) à 0 par defaut afin qu'il puisse etre modifié par le prix contenu dans la fonction "handledata(couch)" ligne 25 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" venant de l'API (handleData) soit reutilisée dans "data" (de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
+    let itemPrice = 0                                                               // On met ici le prix(Itemprice) à 0 par defaut afin qu'il soit modifié par le prix contenu dans l'api au sein de la fonction "handledata(couch)" ligne 25 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" venant de l'API (handleData) soit reutilisée dans "data" (de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
     let imgUrl, altText, articleName                                                // On met ici imgUrl, alText, articleName pour les memes raisons (pas reconnu par le localStorage)
 }
 
@@ -77,19 +77,19 @@ function handleClick() {                                                        
     const quantity = document.querySelector("#quantity").value                      // On récupère la valeur de la couleur et de la quantité sélectionnée par l'utilisateur dans le menu déroulant et le champ de saisie. On utilise la propriété value pour récupérer la valeur sélectionnée.
                                                                                
     if (isOrderInvalid(color, quantity)) return                                     // ...Si la couleur et la quantité est incorrectement entrée alors la fonction IsOrderinvalid s'applique ce qui va entrainer l'affichage d'un message d'erreur et l'arrêt du processus par l'intermediaire de "return"...
-    saveOrder(color, quantity)                                                      // ...Sinon il va sauvegarder toutes les données dans le saveOrder / Appel de la fonction "saveOrder" créee ci-dessous 
+    saveOrder(color, quantity)                                                      // ...Sinon dés lors qu'on clique dans "Ajouter dans le Panier" il va sauvegarder toutes les données dans le localStorage grace à l'appel de la fonction "saveOrder" créee ci-dessous 
     redirectToCart()                                                                // Puis il va nous rediriger vers le panier  / Appel de la fonction "redirectToCart" créée ci-dessous 
 }
 
 
 
-function saveOrder(color, quantity) {                                               // On sauvegarde ces informations dans le localStorage. En effet, après avoir cliquer sur "Ajouter dans le panier" on va sauvegarder dans le localStorage les informations du/des articles à acheter (l'id, la couleur, la quantité, le prix etc.) 
-    const key = `${id}-${color}`                                                    // On crée une clé unique pour chaque article en combinant l'id du produit et la couleur sélectionnée. Cela permet de stocker plusieurs articles avec des couleurs différentes dans le localStorage. On utilise la syntaxe `${}` pour interpoler les valeurs de id et color dans la chaîne de caractères. l'id est puisé dans la ligne 4 (const id = urlParams.get("id")) et la couleur est puisée dans la ligne 76 (const color = document.querySelector("#colors").value)
+function saveOrder(color, quantity) {                                               // Après avoir cliqué sur "Ajouter dans le panier" on va sauvegarder dans le localStorage les informations de l'article à acheter (l'id, la couleur, la quantité, le prix etc.) 
+    const key = `${id}-${color}`                                                    // On crée une clé unique pour chaque article en combinant l'id du produit et la couleur sélectionnée. Cela permet de stocker plusieurs articles similaires mais avec des couleurs différentes dans le localStorage. Or cela était impossible avant. On utilise la syntaxe `${}` pour interpoler les valeurs de id et color dans la chaîne de caractères. l'id est puisé dans la ligne 4 (const id = urlParams.get("id")) et la couleur est puisée dans la ligne 76 (const color = document.querySelector("#colors").value)
     const data = {                                                                  // On crée un objet data qui va contenir toutes les informations de l'article à stocker dans le localStorage. On utilise la syntaxe d'objet littéral pour créer l'objet.
         id: id,
         color: color,
-        quantity: Number(quantity),                                                 // Quantity on en fait un Number. Pour eviter que sur la console les chiffres s'affichent en string genre "1" au lieu de 1.
-        price: itemPrice,                                                           // Avant = "price: price" mais on rencontrait des problemes pour que le localStorage parvienne a lire la valeur du prix. On reorganise alors le code en haut de la page de telle manière que la valeur du prix soit reconnu par le localStorage. Itemprice vaut ici "price" qui est tiré de l'API. 
+        quantity: Number(quantity),                                                 // Quantity on en fait un Number. Pour eviter que dans la console les chiffres s'affichent en string. Exemple: "1" au lieu de 1.
+        price: itemPrice,                                                           // Avant = "price: price" mais on rencontrait des problemes pour que le localStorage parvienne a lire la valeur du prix. On reorganise alors le code en haut de la page de telle manière que la valeur du prix soit reconnu par le localStorage. Itemprice vaut ici "price" qui est tiré de l'API. cf. ligne 25
         imageUrl: imgUrl,
         altTxt: altText,
         name: articleName
@@ -109,3 +109,4 @@ function isOrderInvalid(color, quantity) {                                      
 function redirectToCart() {                                                         // Gestion de la redirection vers le panier après l'ajout au panier.
     window.location.href = "cart.html"
 }
+
