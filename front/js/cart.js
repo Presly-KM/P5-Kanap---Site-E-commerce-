@@ -233,7 +233,7 @@ function makeRequestBody() {                                                    
     const address = form.elements.address.value
     const city = form.elements.city.value
     const email = form.elements.email.value
-    const body = {
+    const body = {                                                                                           
         contact: {
             firstName: firstName,
             lastName: lastName,
@@ -243,7 +243,7 @@ function makeRequestBody() {                                                    
         },
         products: getIdsFromCache()                                                                         // On appelle la fonction getIdsFromCache pour récupérer les ids des produits présents dans le localStorage. On lui passe en paramètre les ids des produits sélectionnés par l'utilisateur.
     }
-    return body
+    return body                                                                                             // On retourne le corps de la requête (body) contenant les informations de contact et les produits sélectionnés par l'utilisateur.
 }
 
 
