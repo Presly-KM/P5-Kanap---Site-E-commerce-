@@ -197,8 +197,8 @@ function submitForm(e) {                                                        
     })
         .then((res) => res.json())                                                                            // On utilise la méthode then pour traiter la réponse de l'API. On transforme la réponse en JSON.
         .then((data) => {                                                                                     // Une fois qu'on a récupéré la réponse
-            const orderId = data.orderId                                                                      // On récupère au sein de la réponse de l'API la partie orderId...
-            window.location.href = "\confirmation.html" + "?orderId=" + orderId                               // ...Et on redirige l'utilisateur vers la page de confirmation de commande en lui passant l'orderId en paramètre dans l'URL. 
+            const orderId = data.orderId                                                                      // 
+            window.location.href = "\confirmation.html" + "?orderId=" + orderId                               // ...on redirige l'utilisateur vers la page de confirmation de commande en lui passant l'orderId en paramètre dans l'URL. 
         })
         .catch ((err) => console.error(err))                                                                  // console.error ecrit un message dans la console en rouge avce une croix zu début (histoire que l'erreur saute aux yeux)
 }
