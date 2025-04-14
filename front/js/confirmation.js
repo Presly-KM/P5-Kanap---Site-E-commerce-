@@ -17,5 +17,5 @@ function displayOrderId() {                                       // On va maint
  
 function removeAllCache() {                                       // On vide, supprime les données du local storage une fois la commande validée et le numéro de commande communiqué !
     const cache = window.localStorage                             //
-    cache.clear()                                                 // 
+    cache.clear()                                                 // On vide le local storage (le cache) en utilisant la méthode clear() de l'objet localStorage. 
 }
