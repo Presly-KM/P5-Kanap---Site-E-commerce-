@@ -219,7 +219,7 @@ function isFormInvalid() {                                                      
     inputs.forEach((input) => {                                                                               // Pour chaque input...
         if (input.value === "") {                                                                             // ...si la value est "null" dans l'une d'elles...
             alert("Please fill all the fields")                                                               // ...message d'alerte.
-            return true                                                                                       // + return true qui signifie "Effectivement,le formumaire est invalide" 
+            return true                                                                                       // + return true qui signifie "Effectivement,le formumaire est invalide" (rework)
         }
         return false                                                                                          // Sinon return false : non le formulaire n'est pas invalide
     })
