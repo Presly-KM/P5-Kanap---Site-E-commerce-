@@ -205,7 +205,7 @@ function submitForm(e) {                                                        
  
 function isEmailInvalid() {                                                                                   // Gestion de la validation de l'email (vérification que l'email est valide).
     const email = document.querySelector("#email").value
-    const regex = /^[A-Za-z0-9+_.-]+@(.+)$/                                                                   // Regex ci-contre contient des failles. On va copier coller le regex d'un des cours Openclassrooms 
+    const regex = /^[a-zA-Z0–9._%+-]+@[a-zA-Z0–9.-]+\.[a-zA-Z]{2,}$/                                          // On utilise une expression régulière pour vérifier que l'email est valide. L'expression régulière vérifie que l'email contient un nom d'utilisateur, un symbole @, un nom de domaine et une extension de domaine. 
     if (regex.test(email) === false) {
         alert("Please enter valid email")
         return true
@@ -234,23 +234,23 @@ function makeRequestBody() {                                                    
     const city = form.elements.city.value
     const email = form.elements.email.value
     const body = {                                                                                           
-        contact: {
-            firstName: firstName,
+        contact: {                                                                                            // On crée un objet contact contenant les informations de contact de l'utilisateur (firstName, lastName, address, city, email).
+            firstName: firstName,                                                                               
             lastName: lastName,
             address: address,
             city: city,
             email: email
         },
-        products: getIdsFromCache()                                                                         // On appelle la fonction getIdsFromCache pour récupérer les ids des produits présents dans le localStorage. On lui passe en paramètre les ids des produits sélectionnés par l'utilisateur.
+        products: getIdsFromCache()                                                                         // On appelle la fonction getIdsFromCache pour récupérer les ids des produits présents dans le localStorage.
     }
     return body                                                                                             // On retourne le corps de la requête (body) contenant les informations de contact et les produits sélectionnés par l'utilisateur.
 }
 
 
 function getIdsFromCache() {                                                                                // On veut récupérer les ids (les identifiants) des produits présents dans le localStorage pour les envoyer à l'API lors de la soumission du formulaire. On va donc créer une fonction qui va nous permettre de récupérer les ids des produits présents dans le localStorage.
-    const numberOfProducts = localStorage.length
+    const numberOfProducts = localStorage.length                                                            
     const ids = []
-    for (let i = 0; i < numberOfProducts; i++) {
+    for (let i = 0; i < numberOfProducts; i++) {                                                            // On parcours le localStorage pour récupérer les ids des produits présents dans le localStorage.
         const key = localStorage.key(i)
         const id = key.split("-")[0]                                                                        // Nous voulons juste le coté gauche de l'id et non la mention de la couleur qui se trouve du coté drroit. Nous faisons donc un split au niveau du trait d'union.
         ids.push(id)                                                                                        // On va prendre l'id récupéré dans la ligne de code du dessus (cont id) pour l'ajouter (push) dans const ids (contenant un tableau vide comme on peut le voir)
