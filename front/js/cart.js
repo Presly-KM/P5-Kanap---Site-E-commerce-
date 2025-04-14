@@ -219,11 +219,11 @@ function isFormInvalid() {                                                      
     inputs.forEach((input) => {                                                                               // Pour chaque input...
         if (input.value === "") {                                                                             // ...si la value est "null" dans l'une d'elles...
             alert("Please fill all the fields")                                                               // ...message d'alerte.
-            return true                                                                                       // + return true qui signifie "Effectivement,le formumaire est invalide" (rework)
+            preventDefault()                                                                                  // ...on empêche le comportement par défaut du formulaire (rechargement de la page + soumission du formulaire). 
+            return true                                                                                       // + return true qui signifie "Effectivement, la condition s'applique à savoir que l'input est vide et dois donc enclencher le message d'alerte ainsi que le preventDefault" 
         }
-        return false                                                                                          // Sinon return false : non le formulaire n'est pas invalide
+        return false                                                                                          // Sinon return false : non la condition ne s'applique pas !
     })
-
 }
 
 function makeRequestBody() {                                                                                  // Gestion de la création du corps de la requête (body) à envoyer à l'API contenant les informations de contact et les produits sélectionnés par l'utilisateur.
@@ -241,19 +241,19 @@ function makeRequestBody() {                                                    
             city: city,
             email: email
         },
-        products: getIdsFromCache()                                                                         // On appelle la fonction getIdsFromCache pour récupérer les ids des produits présents dans le localStorage.
+        products: getIdsFromCache()                                                                           // On appelle la fonction getIdsFromCache pour récupérer les ids des produits présents dans le localStorage.
     }
-    return body                                                                                             // On retourne le corps de la requête (body) contenant les informations de contact et les produits sélectionnés par l'utilisateur.
+    return body                                                                                               // On retourne le corps de la requête (body) contenant les informations de contact et les produits sélectionnés par l'utilisateur.
 }
 
 
-function getIdsFromCache() {                                                                                // On veut récupérer les ids (les identifiants) des produits présents dans le localStorage pour les envoyer à l'API lors de la soumission du formulaire. On va donc créer une fonction qui va nous permettre de récupérer les ids des produits présents dans le localStorage.
+function getIdsFromCache() {                                                                                  // On veut récupérer les ids (les identifiants) des produits présents dans le localStorage pour les envoyer à l'API lors de la soumission du formulaire. On va donc créer une fonction qui va nous permettre de récupérer les ids des produits présents dans le localStorage.
     const numberOfProducts = localStorage.length                                                            
     const ids = []
-    for (let i = 0; i < numberOfProducts; i++) {                                                            // On parcours le localStorage pour récupérer les ids des produits présents dans le localStorage.
+    for (let i = 0; i < numberOfProducts; i++) {                                                              // On parcours le localStorage pour récupérer les ids des produits présents dans le localStorage.
         const key = localStorage.key(i)
-        const id = key.split("-")[0]                                                                        // Nous voulons juste le coté gauche de l'id et non la mention de la couleur qui se trouve du coté drroit. Nous faisons donc un split au niveau du trait d'union.
-        ids.push(id)                                                                                        // On va prendre l'id récupéré dans la ligne de code du dessus (cont id) pour l'ajouter (push) dans const ids (contenant un tableau vide comme on peut le voir)
+        const id = key.split("-")[0]                                                                          // Nous voulons juste le coté gauche de l'id et non la mention de la couleur qui se trouve du coté drroit. Nous faisons donc un split au niveau du trait d'union.
+        ids.push(id)                                                                                          // On va prendre l'id récupéré dans la ligne de code du dessus (cont id) pour l'ajouter (push) dans const ids (contenant un tableau vide comme on peut le voir)
     }
     return ids
 }
