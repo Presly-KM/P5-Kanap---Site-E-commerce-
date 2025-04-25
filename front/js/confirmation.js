@@ -1,6 +1,6 @@
-const orderId = getOrderId()                                      // On appelle la fonction ecrite plus bas destinée a récupérer le numéro de commande
-displayOrderId(orderId)                                           // On appelle la fonction ecrite plus bas destinée a afficher le numero de commande 
-removeAllCache()                                                  // On appelle la fonction ecrite plus bas destinée a supprimer le cache (les données du localstorage)
+const orderId = getOrderId()                                      // On appelle la fonction ecrite plus bas destinée à récupérer le numéro de commande
+displayOrderId(orderId)                                           // On appelle la fonction ecrite plus bas destinée à afficher le numero de commande 
+removeAllCache()                                                  // On appelle la fonction ecrite plus bas destinée à supprimer le cache (les données du localstorage)
  
 
 function getOrderId() {                                           // On cherche ici à récuperer l'id de commande (orderId) qui est dans l'url (après le "?") et qui se trouve en paramètre de la requête (ex : ?orderId=1234567890)
