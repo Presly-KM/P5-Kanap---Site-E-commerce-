@@ -12,7 +12,7 @@ return urlParams.get("orderId")                                   // Cette fonct
 
 function displayOrderId() {                                       // On va maintenant afficher l'id trouvé en html                   
     const orderIdElement = document.getElementById("orderId")     // On va chercher l'élément html qui a pour id "orderId" et on l'assigne à la variable orderIdElement
-    orderIdElement.textContent = orderId                          // On y incorpore l'id de commande comme dans le html de tel sorteque : "<p>Votre commande n°1234567890</p>"
+    orderIdElement.textContent = orderId                          // On y incorpore l'id de commande comme dans le html de tel sorte que : "<p>Votre commande n°1234567890</p>"
 }
  
 function removeAllCache() {                                       // On vide, supprime les données du local storage une fois la commande validée et le numéro de commande communiqué !
