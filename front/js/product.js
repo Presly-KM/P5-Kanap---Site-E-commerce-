@@ -103,12 +103,12 @@ function saveOrder(color, quantity) {                                           
 
 
 
-function retrieveAllItemsFromCache() {                                                 // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
+function retrieveAllItemsFromCache() {                                              // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
     const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
     for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
-        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupere maintenant au sein du local storage l'objet choisi (i) par l'utilisateur par la clé (identifiant de l'objet (ou des objets))
-        const itemObject = JSON.parse(item)                                         // On parse l'objet récupéré pour le transformer en objet javascript. On utilise JSON.parse pour transformer une chaîne de caractères en objet javascript.
-        Basket.push(itemObject)                                                       // On met l'objet récupéré dans le "cart" (panier) ci-dessus.
+        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupère chaque article du localStorage en utilisant la méthode getItem de l'interface Storage. On utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
+        const itemObject = JSON.parse(item)                                         // On transforme la chaîne JSON en objet JavaScript en utilisant JSON.parse. Cela nous permet de récupérer les données de l'article sous forme d'objet.
+        Basket.push(itemObject)                                                     // On met l'objet récupéré dans le "Basket" (panier) ci-dessus.
     }
 }
 
