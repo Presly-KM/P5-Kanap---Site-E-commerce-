@@ -98,7 +98,15 @@ function saveOrder(color, quantity) {                                           
         altTxt: altText,
         name: articleName
     }
-    localStorage.setItem(key, JSON.stringify(data))                                 // LocalStorage prend ici l'identifiant (ou la clé) et la valeur à stocker. De telle manière que : localStorage.setItem("identifiant", "valeur").   JSON.stringify --> LocalStorage n'est pas capable de storer des objets, on est obligé de les sérialiser, autrement dit, de les transformer en string. 
+    localStorage.setItem(key, JSON.stringify(data))                                                             // LocalStorage prend ici l'identifiant (ou la clé) et la valeur à stocker. De telle manière que : localStorage.setItem("identifiant", "valeur").   JSON.stringify --> LocalStorage n'est pas capable de storer des objets, on est obligé de les sérialiser, autrement dit, de les transformer en string. 
+    
+    const itemToUpdate = Basket.find((item) => item.id === id && item.color === color);                         // On cherche si l'article existe déjà dans le panier en utilisant la méthode find. On compare l'id et la couleur de l'article pour trouver une correspondance. Si l'article existe, on le met à jour.
+    if (itemToUpdate != null) {                                                                                 // On vérifie si l'article à modfier est bien présent dans le panier/dans le localStorage.
+        increaseOfQuantity = itemToUpdate.quantity + Number(quantity)                                           // On additionne la quantité déjà présente dans le panier avec la nouvelle quantité sélectionnée par l'utilisateur. On utilise Number pour convertir la valeur de quantity en nombre.
+        itemToUpdate.quantity = increaseOfQuantity                                                              // On met à jour la quantité de l'article dans l'objet data.                                                                               // On affiche une alerte pour informer l'utilisateur que l'article est déjà présent dans le panier et que la quantité a été mise à jour.                            
+        localStorage.setItem(key, JSON.stringify(itemToUpdate))                                                 // On met à jour les données de l'article dans le localStorage en utilisant la clé unique créée précédemment. On utilise la méthode setItem pour mettre à jour les données et JSON.stringify pour les transformer en chaîne de caractères.                                                                                                                // On va chercher l'élément qui va encadrer la génération de la quantité (le <input id="quantity">) et on l'assigne à la variable inputItemQuantity.
+        alert(`This item is already in the cart. The quantity has been increased : ${increaseOfQuantity}`)       
+    }
 }
 
 
