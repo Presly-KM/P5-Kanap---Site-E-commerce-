@@ -3,15 +3,19 @@ const Basket = []                                                               
 
 retrieveAllItemsFromCache()                                                         // On appelle la fonction retrieveAllItemsFromCache pour récupérer tous les articles du panier stockés dans le localStorage.
 
+
 const queryString = window.location.search                                          // Window.location.search est une propriété qui renvoie la partie de l'URL qui suit le "?" et qui contient les paramètres de la requête.(Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83). Elle retourne la partie chaines de requête (Querystring) de l'URL qui commence par le "?" et qui contient les paramètres de la requête.
 const urlParams = new URLSearchParams(queryString)                                  // URLSearchParams est une interface qui fournit des méthodes pour travailler avec les paramètres d'URL. Elle permet de récupérer les valeurs des paramètres de la requête en utilisant leur nom.
 const id = urlParams.get("id")                                                      // On veut récupérer la valeur de l"id du produit (qui se trouve au sein du querystring) . La constante id va donc ici automatiquement afficher la valeur de l'id ciblée (les inscriptions après le "?") On utilise la méthode get de l'interface URLSearchParams pour récupérer la valeur de l'id ciblé.
+
 
 
 if (id != null) {                                                                   // On crée ici une variable globale pour gérer le problème dans la fonction "saveorder" concernant le localStorage. si l'id existe...
     let itemPrice = 0                                                               // On met ici le prix(Itemprice) à 0 par defaut afin qu'il soit modifié par le prix contenu dans l'api au sein de la fonction "handledata(couch)" ligne 25 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" venant de l'API (handleData) soit reutilisée dans "data" (de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
     let imgUrl, altText, articleName                                                // On met ici imgUrl, alText, articleName pour les memes raisons (pas reconnu par le localStorage)
 }
+
+
 
 fetch(`http://localhost:3000/api/products/${id}`)                                   // On fait une deuxième requête au serveur pour récupèrer les données propres à l'id du produit que l'on cible. La valeur de l'id est ici récupérée grâce à l'URLSearchParams. (cf.ligne 4)  
     .then((response) => response.json())                                            // On va chercher la réponse de l'API contenant les données propres à l'id ciblé et on la transforme en JSON. 
@@ -37,6 +41,8 @@ function handleData(couch) {                                                    
     makeColors(colors)
 }
 
+
+
 function makeImage(imageUrl, altTxt) {                                              // On crée une fonction qui va nous permettre de créer une image (un <img>) 
     const image = document.createElement("img")                                     // On crée un élément <img> et on l'assigne à la variable image. On crée le "<img>...</img>"
     image.src = imageUrl                                                            // On y incorpore l'url de l'image comme dans le html de tel sorte que : "<img src="http://localhost:3000/images/kanap01.jpeg" alt="Photo d'un canapé bleu, deux places">"
@@ -46,20 +52,27 @@ function makeImage(imageUrl, altTxt) {                                          
 }
 
 
+
 function makeTitle(name) {                                                          // On ajoute le titre/nom de l'article/pièce 
     const h1 = document.querySelector("#title")                                     // On va chercher l'élément qui va encadrer la génération du titre (le <h1 id="title">) et on l'assigne à la variable h1.
     if (h1 != null) h1.textContent = name                                           // On y incorpore le nom du produit comme dans le html de tel sorte que : "<h1 id="title">Kanap Sinopé</h1>" 
 }
+
+
 
 function makePrice(price) {                                                         // On ajoute le prix en html
     const span = document.querySelector("#price")                                   // On va chercher l'élément qui va encadrer la génération du prix (le <span id="price">) et on l'assigne à la variable span.
     if (span != null) span.textContent = price                                      // On y incorpore le prix du produit comme dans le html de tel sorte que : "<span id="price">490</span>"
 }
 
+
+
 function makeCartContent(description) {                                             // On ajoute ici la description des pices
     const p = document.querySelector("#description")                                // On va chercher l'élément qui va encadrer la génération de la description (le <p id="description">) et on l'assigne à la variable p.
     if (p != null) p.textContent = description                                      // On y incorpore la description du produit comme dans le html de tel sorte que : "<p id="description">Un canapé 2 places en tissu gris clair</p>"
 }
+
+
 
 function makeColors(colors) {
     const select = document.querySelector("#colors")                                // On récupère l'id "colors" qui est situé au sein de l'attibut "select" dans le html   NB : En html, l'attribut "select" concerne les menus déroulants
@@ -72,6 +85,8 @@ function makeColors(colors) {
         })
     }
 }
+
+
 
 const button = document.querySelector("#addToCart")                                 // On met en place le bouton "Ajouter dans le panier"
 button.addEventListener("click", handleClick)                                       // A la place de "event" on met "handleClick" qui signifie : Quand on clique sur le bouton, applique directement la focntion "handleClick"
@@ -124,7 +139,7 @@ function retrieveAllItemsFromCache() {                                          
 
 function isOrderInvalid(color, quantity) {                                          // Gestion de la validité du choix de la couleur et de la quantité du produit à acheter
     if (color == null || color === "" || quantity == null || quantity == 0) {
-        alert("Please select a color and quantity")
+        alert("Please select a color and a quantity ! ⛔⚠")
         return true                                                                 // Cette focntion renvoie true si une seule de ces conditions la est remplie
     }
 }
