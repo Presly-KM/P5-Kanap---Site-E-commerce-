@@ -1,4 +1,8 @@
 //@ts-nocheck
+const Basket = []                                                                   // On crée un tableau vide qui va contenir les articles stockés dans le panier. On l'assigne à la variable Basket.
+
+retrieveAllItemsFromCache()                                                         // On appelle la fonction retrieveAllItemsFromCache pour récupérer tous les articles du panier stockés dans le localStorage.
+
 const queryString = window.location.search                                          // Window.location.search est une propriété qui renvoie la partie de l'URL qui suit le "?" et qui contient les paramètres de la requête.(Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83). Elle retourne la partie chaines de requête (Querystring) de l'URL qui commence par le "?" et qui contient les paramètres de la requête.
 const urlParams = new URLSearchParams(queryString)                                  // URLSearchParams est une interface qui fournit des méthodes pour travailler avec les paramètres d'URL. Elle permet de récupérer les valeurs des paramètres de la requête en utilisant leur nom.
 const id = urlParams.get("id")                                                      // On veut récupérer la valeur de l"id du produit (qui se trouve au sein du querystring) . La constante id va donc ici automatiquement afficher la valeur de l'id ciblée (les inscriptions après le "?") On utilise la méthode get de l'interface URLSearchParams pour récupérer la valeur de l'id ciblé.
@@ -98,12 +102,25 @@ function saveOrder(color, quantity) {                                           
 }
 
 
+
+function retrieveAllItemsFromCache() {                                                 // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
+    const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
+    for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
+        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupere maintenant au sein du local storage l'objet choisi (i) par l'utilisateur par la clé (identifiant de l'objet (ou des objets))
+        const itemObject = JSON.parse(item)                                         // On parse l'objet récupéré pour le transformer en objet javascript. On utilise JSON.parse pour transformer une chaîne de caractères en objet javascript.
+        Basket.push(itemObject)                                                       // On met l'objet récupéré dans le "cart" (panier) ci-dessus.
+    }
+}
+
+
+
 function isOrderInvalid(color, quantity) {                                          // Gestion de la validité du choix de la couleur et de la quantité du produit à acheter
     if (color == null || color === "" || quantity == null || quantity == 0) {
         alert("Please select a color and quantity")
         return true                                                                 // Cette focntion renvoie true si une seule de ces conditions la est remplie
     }
 }
+
 
 
 function redirectToCart() {                                                         // Gestion de la redirection vers le panier après l'ajout au panier.
