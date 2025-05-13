@@ -97,7 +97,7 @@ function handleClick() {                                                        
                                                                                
     if (isOrderInvalid(color, quantity)) return                                     // ...Si la couleur et la quantité est incorrectement entrée alors la fonction IsOrderinvalid s'applique ce qui va entrainer l'affichage d'un message d'erreur et l'arrêt du processus par l'intermediaire de "return"...
     saveOrder(color, quantity)                                                      // ...Sinon dés lors qu'on clique dans "Ajouter dans le Panier" il va sauvegarder toutes les données dans le localStorage grace à l'appel de la fonction "saveOrder" créee ci-dessous 
-    alert("The item has been added to your cart ! 👍");
+    alert("The item was added to your cart ! 👍");
     redirectToCart()                                                                // Puis il va nous rediriger vers le panier  / Appel de la fonction "redirectToCart" créée ci-dessous 
 }
 
