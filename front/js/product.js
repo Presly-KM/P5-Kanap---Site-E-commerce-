@@ -141,7 +141,7 @@ function retrieveAllItemsFromCache() {                                          
 function isOrderInvalid(color, quantity) {                                          // Gestion de la validité du choix de la couleur et de la quantité du produit à acheter
     if (color == null || color === "" || quantity == null || quantity == 0) {
         alert("Please select a color and a quantity ! ⛔⚠")
-        return true                                                                 // Cette focntion renvoie true si une seule de ces conditions la est remplie
+        return true                                                                 // Cette fonction renvoie "true" si une seule de ces conditions est remplie
     }
 }
 
