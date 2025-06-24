@@ -34,7 +34,7 @@ function handleData(couch) {                                                    
     imgUrl = imageUrl                                                               // meme raison que ci-dessus
     altText = altTxt                                                                // meme raison
     articleName = name                                                              // meme raison 
-    makeImage(imageUrl, altTxt)                                                     // Après avoir récupéré indivuellment les données, on les passent dans les fonctions makeImage, makeTitle, makePrice, makeCartContent et makeColors 
+    makeImage(imageUrl, altTxt)                                                     // Après avoir récupéré indivuellment les données, on les passe dans les fonctions makeImage, makeTitle, makePrice, makeCartContent et makeColors 
     makeTitle(name)
     makePrice(price)
     makeCartContent(description)
