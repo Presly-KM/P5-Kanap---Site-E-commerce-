@@ -1,6 +1,6 @@
 fetch("http://localhost:3000/api/products")                                        // On va chercher l'API (l'url) qui nous permet de récupérer les produits.
     .then((response) => response.json())                                           // On va chercher la réponse de l'API et on la transforme en JSON. On utilise la méthode "then" pour dire d'attendre la réponse de l'API avant de continuer avec cette réponse de l'API que l'on va ensuite transformer en JSON par la méthode json(). 
-    .then((data) => addProducts(data))                                             // On récupère les données de l'API et on les envoie à la fonction addProducts(). 
+    .then((data) => addProducts(data))                                             // Quand on recoit les données, on les envoie à la fonction addProducts().
 
 // altTxt: "Photo d'un canapé bleu, deux places"
 // colors: (3) ['Blue', 'White', 'Black'] 
@@ -34,9 +34,9 @@ function addProducts(couches) {                                                 
     })
 }
 
-function appendElementsToArticle(article, array) {                                 // On crée une fonction qui va nous permettre d'ajouter les éléments à l'article.  
+function appendElementsToArticle(article, array) {                                 // On crée une fonction qui va nous permettre d'ajouter les éléments(image, titre(h3), description(p)) au sein de la balise <article>. On lui passe en paramètre l'article et un tableau(array) contenant les éléments à ajouter.
     array.forEach((item) => {                                                      // Pour chaque élément (item) au sein du tableau(array)... /
-        article.appendChild(item)                                                  // ...ajoute cet élément à l'article (balise html)
+        article.appendChild(item)                                                  // ...ajoute cet élément en tant qu'enfant de <article>
     })
     // article.appendChild(image)
     // article.appendChild(h3)
@@ -45,7 +45,7 @@ function appendElementsToArticle(article, array) {                              
 
 function makeAnchor(id) {                                                          // 1.On crée une fonction qui va nous permettre de créer un lien (un <a>) vers le produit qu'on cible (en cliquant dessus par exemple)                
     const anchor = document.createElement("a")                                     // On crée un élément <a> (un lien) et on l'assigne à la variable anchor. On crée le "<a>...</a>"
-    anchor.href = "./product.html?id=" + id                                        // On y incorpore le lien vers le produit comme dans le html de tel sorte que : "<a href="./product.html?id=42">". On ajoute "id" à la fin pour qu'on soit redirigé vers un artcicle bien précis grace aux paramètres de l'url (UrlParams) fournis par "id" et qui se situent après le point d'interrogation (?). (Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83)
+    anchor.href = "./product.html?id=" + id                                        // On y incorpore le lien vers la page d'un produit spécifique comme dans le html de tel sorte que : "<a href="./product.html?id=42">". On ajoute "id" à la fin pour qu'on soit redirigé vers un article bien précis grace aux paramètres de l'url (UrlParams) fournis par "id" et qui se situent après le point d'interrogation (?). (Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83)
     return anchor
 }
 
@@ -61,8 +61,6 @@ function makeImage(imageUrl, altTxt) {                                          
     const image = document.createElement("img")                                    // On crée un élément <img> et on l'assigne à la variable image. On crée le "<img src="..." alt="...">"
     image.src = imageUrl                                                           // On y incorpore l'url de l'image comme dans le html de tel sorteque : "<img src="http://localhost:3000/images/kanap01.jpeg" alt="Photo d'un canapé bleu, deux places">"                                 
     image.alt = altTxt                                                             // On y incorpore le texte alternatif de l'image comme dans le html de tel sorteque : "<img src="..." alt="Photo d'un canapé bleu, deux places">"
-    image.removeAttribute("title")                                                 // On supprime l'attribut title de l'image car il n'est pas nécessaire. On utilise la méthode removeAttribute pour supprimer un attribut d'un élément.
-    image.removeAttribute("style")                                                 // On supprime l'attribut style de l'image car il n'est pas nécessaire. On utilise la méthode removeAttribute pour supprimer un attribut d'un élément.
     return image
 }
 
