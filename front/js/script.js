@@ -1,5 +1,5 @@
 fetch("http://localhost:3000/api/products")                                        // On va chercher l'API (l'url) qui nous permet de récupérer les produits.
-    .then((response) => response.json())                                           // On va chercher la réponse de l'API et on la transforme en JSON. On utilise la méthode "then" pour dire que lorsque l'on a une réponse, on fait quelque chose avec. 
+    .then((response) => response.json())                                           // On va chercher la réponse de l'API et on la transforme en JSON. On utilise la méthode "then" pour dire d'attendre la réponse de l'API avant de continuer avec cette réponse de l'API que l'on va ensuite transformer en JSON par la méthode json(). 
     .then((data) => addProducts(data))                                             // On récupère les données de l'API et on les envoie à la fonction addProducts. 
 
 // altTxt: "Photo d'un canapé bleu, deux places"
@@ -11,7 +11,7 @@ fetch("http://localhost:3000/api/products")                                     
 // _id : "107fb5b75607497b96722bda5b504926"
 
 
-// Une fois qu'on est parvenu à récuperer les données on veut maintenant les afficher de maniere automatisée dans notre index.html 
+// Une fois qu'on est parvenu à récuperer les données on veut maintenant les afficher de manière automatisée dans notre index.html 
 
 
 function addProducts(couches) {                                                    // On crée une fonction addProducts qui va nous permettre d'ajouter les produits à la page. On lui passe en paramètre les données de l'API (couches).
@@ -51,7 +51,7 @@ function makeAnchor(id) {                                                       
 
 function appendArticleToAnchor(anchor, article) {                                  // 2. On va chercher l'élément qui va encadrer la génération de l'article
     const items = document.querySelector("#items")                                 // On va chercher l'élément qui va encadrer la génération de l'article (le <section id="items">) et on l'assigne à la variable items. On utilise le selecteur "#items" pour dire que l'on veut l'élément qui a pour id "items".
-    if (items != null) {                                                           // On verifie que l'élément existe bien et si il n'existe pas...
+    if (items != null) {                                                           // On verifie que l'élément existe bien (pour eviter le message d'erreur "object is possibly null") et si il n'existe pas...
         items.appendChild(anchor)                                                  // On ajoute l'élément <a> (anchor) à l'élément <section id="items"> (items) en tant qu'enfant. On utilise la méthode appendChild pour ajouter un élément enfant à un élément parent.
         anchor.appendChild(article)                                                // On ajoute l'élément <article> (article) à l'élément <a> (anchor) en tant qu'enfant. 
     }
