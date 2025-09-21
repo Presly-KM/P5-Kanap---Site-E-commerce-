@@ -1,6 +1,6 @@
 fetch("http://localhost:3000/api/products")                                        // On va chercher l'API (l'url) qui nous permet de récupérer les produits.
     .then((response) => response.json())                                           // On va chercher la réponse de l'API et on la transforme en JSON. On utilise la méthode "then" pour dire d'attendre la réponse de l'API avant de continuer avec cette réponse de l'API que l'on va ensuite transformer en JSON par la méthode json(). 
-    .then((data) => addProducts(data))                                             // On récupère les données de l'API et on les envoie à la fonction addProducts. 
+    .then((data) => addProducts(data))                                             // On récupère les données de l'API et on les envoie à la fonction addProducts(). 
 
 // altTxt: "Photo d'un canapé bleu, deux places"
 // colors: (3) ['Blue', 'White', 'Black'] 
