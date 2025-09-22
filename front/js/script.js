@@ -34,7 +34,7 @@ function addProducts(couches) {                                                 
     })
 }
 
-function appendElementsToArticle(article, array) {                                 // On crée une fonction qui va nous permettre d'ajouter les éléments(image, titre(h3), description(p)) au sein de la balise <article>. On lui passe en paramètre l'article et un tableau(array) contenant les éléments à ajouter.
+function appendElementsToArticle(article, array) {                                 // On crée une fonction qui va nous permettre d'ajouter les éléments(image, titre(h3), description(p)) au sein de la balise <article>. On lui passe donc en paramètre l'article puis un tableau(array) contenant les 3 éléments (cf.32) à ajouter.
     array.forEach((item) => {                                                      // Pour chaque élément (item) au sein du tableau(array)... /
         article.appendChild(item)                                                  // ...ajoute cet élément en tant qu'enfant de <article>
     })
