@@ -17,7 +17,7 @@ if (id != null) {                                                               
 
 
 
-fetch(`http://localhost:3000/api/products/${id}`)                                   // On fait une deuxième requête au serveur pour récupèrer les données propres à l'id du produit que l'on cible. La valeur de l'id est ici récupérée grâce à l'URLSearchParams. (cf.ligne 4)  
+fetch(`http://localhost:3000/api/products/${id}`)                                   // On fait une deuxième requête au serveur pour récupèrer les données propres à l'id du produit que l'on cible. La valeur de l'id est ici récupérée grâce à l'URLSearchParams. (cf.ligne 8à9)  
     .then((response) => response.json())                                            // On va chercher la réponse de l'API contenant les données propres à l'id ciblé et on la transforme en JSON. 
     .then((res) => handleData(res))                                                 // On récupère les données de l'API et on les envoie à la fonction handleData.  
 
