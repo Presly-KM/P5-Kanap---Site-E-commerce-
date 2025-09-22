@@ -45,7 +45,7 @@ function appendElementsToArticle(article, array) {                              
 
 function makeAnchor(id) {                                                          // 1.On crée une fonction qui va nous permettre de créer un lien (un <a>) vers le produit qu'on cible (en cliquant dessus par exemple)                
     const anchor = document.createElement("a")                                     // On crée un élément <a> (un lien) et on l'assigne à la variable anchor. On crée le "<a>...</a>"
-    anchor.href = "./product.html?id=" + id                                        // On y incorpore le lien vers la page d'un produit spécifique comme dans le html de tel sorte que : "<a href="./product.html?id=42">". On ajoute "id" à la fin pour qu'on soit redirigé vers un article bien précis grace aux paramètres de l'url (UrlParams) fournis par "id" et qui se situent après le point d'interrogation (?). (Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83)
+    anchor.href = "./product.html?id=" + id                                        // On y incorpore le lien vers la page d'un produit spécifique comme dans le html de tel sorte que : "<a href="./product.html?id=42">". On ajoute "id" à la fin pour qu'on soit redirigé vers un article/produit bien précis grace aux paramètres de l'url (UrlParams) fournis par "id" et qui se situent après le point d'interrogation (?). (Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83)
     return anchor
 }
 
