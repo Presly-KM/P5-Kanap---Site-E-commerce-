@@ -10,10 +10,10 @@ fetch(`http://localhost:3000/api/products/${id}`)                               
 
 function handleData(couch) {                                                        // On crée une fonction qui va nous permettre de gérer les données du produit. On lui passe en paramètre les données du produit (couch).
     const { altTxt, colors, description, imageUrl, name, price } = couch            // On récupère individuellement tous les objets qui sont stockées dans handledata                                                             
-    makeImage(imageUrl, altTxt)                                                     // Après avoir récupéré indivuellment les données, on les passe dans les fonctions makeImage, makeTitle, makePrice, makeDescriptionCartContent et makeColors 
+    makeImage(imageUrl, altTxt)                                                     // Après avoir récupéré indivuellment les données, on les passe dans les fonctions makeImage, makeTitle, makePrice, makeDescription et makeColors 
     makeTitle(name)
     makePrice(price)
-    makeDescriptionCartContent(description)
+    makeDescription(description)
     makeColors(colors)
 }
 
@@ -43,7 +43,7 @@ function makePrice(price) {                                                     
 
 
 
-function makeDescriptionCartContent(description) {                                             // On ajoute ici la description des pices
+function makeDescription(description) {                                             // On ajoute ici la description des pices
     const p = document.querySelector("#description")                                // On va chercher l'élément qui va encadrer la génération de la description (le <p id="description">) et on l'assigne à la variable p.
     if (p != null) p.textContent = description                                      // On y incorpore la description du produit comme dans le html de tel sorte que : "<p id="description">Un canapé 2 places en tissu gris clair</p>"
 }
