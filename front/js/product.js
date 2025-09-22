@@ -1,5 +1,5 @@
 //@ts-nocheck
-const InStorage = []                                                                // On crée un tableau vide qui va contenir les articles envoyés dans le panier(dans le localStorage) par l'utilisateur. On l'assigne à la variable InStorage.
+const InStorage = []                                                                // On crée un tableau vide qui va contenir les articles envoyés par l'utilisateur dans le panier(dans le localStorage) . On l'assigne à la variable InStorage.
 
 retrieveAllItemsFromStorage()                                                       // On appelle la fonction retrieveAllItemsFromStorage pour récupérer tous les articles du panier stockés dans le localStorage.
 
