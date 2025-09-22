@@ -1,6 +1,6 @@
 fetch("http://localhost:3000/api/products")                                        // On va chercher l'API (l'url) qui nous permet de récupérer les produits.
     .then((response) => response.json())                                           // On va chercher la réponse de l'API et on la transforme en JSON. On utilise la méthode "then" pour dire d'attendre la réponse de l'API avant de continuer avec cette réponse de l'API que l'on va ensuite transformer en JSON par la méthode json(). 
-    .then((data) => addProducts(data))                                             // Quand on recoit les données, on les envoie à la fonction addProducts().
+    .then((data) => addProducts(data))                                             // Quand on recoit les données de la réponse, on les envoie à la fonction addProducts().
 
 // altTxt: "Photo d'un canapé bleu, deux places"
 // colors: (3) ['Blue', 'White', 'Black'] 
@@ -15,11 +15,11 @@ fetch("http://localhost:3000/api/products")                                     
 
 
 function addProducts(couches) {                                                    // On crée une fonction addProducts qui va nous permettre d'ajouter les produits à la page. On lui passe en paramètre les données de l'API (couches).
-    // const _id = couches[0]._id                                                   
-    // const imageUrl = couches[0].imageUrl
-    // const altTxt = couches[0].altTxt
-    // const name = couches[0].name
-    // const description = couches[0].description
+    // const _id = couches._id                                                     // Effet de la destructuration (voir ligne 25)
+    // const imageUrl = couches.imageUrl
+    // const altTxt = couches.altTxt
+    // const name = couches.name
+    // const description = couches.description
 
     couches.forEach((couch) => {                                                   // Methode forEach qui ici signifie que pour chaque canapé on récupère les données qui lui sont associés au sein de "couches" --> (id, image, altTxt,name, description) =
         const { _id, imageUrl, altTxt, name, description } = couch                 // On utilise la destructuration pour récupérer les données de l'API. On crée une variable pour chaque donnée que l'on va utiliser. 
