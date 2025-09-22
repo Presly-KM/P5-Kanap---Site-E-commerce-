@@ -1,5 +1,5 @@
 //@ts-nocheck
-const InStorage = []                                                                // On crée un tableau vide qui va contenir les articles envoyés par l'utilisateur dans le panier(dans le localStorage) . On l'assigne à la variable InStorage.
+const InStorage = []                                                                // On crée un tableau vide qui va contenir les articles envoyés par l'utilisateur dans le panier(dans le localStorage). On l'assigne à la variable InStorage.
 
 retrieveAllItemsFromStorage()                                                       // On appelle la fonction retrieveAllItemsFromStorage pour récupérer tous les articles du panier stockés dans le localStorage.
 
@@ -10,10 +10,10 @@ const id = urlParams.get("id")                                                  
 
 
 
-if (id != null) {                                                                   // On crée ici une variable globale pour gérer le problème dans la fonction "saveorder" concernant le localStorage. si l'id existe... NOTE if à supprimer : ne garder que ligne 14 et 15 englober le fetch aussi
-    let itemPrice = 0                                                               // On met ici le prix(Itemprice) à 0 par defaut afin qu'il soit modifié par le prix contenu dans l'api au sein de la fonction "handledata(couch)" a la ligne 33 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" venant de l'API (handleData) soit reutilisée dans "data" (de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
-    let imgUrl, altText, articleName                                                // On met ici imgUrl, alText, articleName pour les memes raisons (pas reconnu par le localStorage)
-}
+// On crée ici une variable globale pour rendre le prix, l'image, le texte alternatif et le nom de l'article accessible à l'event listener et plus précisément à la constante "data".(située à la ligne 108) 
+let itemPrice = 0                                                                   // On met ici le prix(Itemprice) à 0 par defaut afin qu'il soit modifié par le prix contenu dans l'api au sein de la fonction "handledata(couch)" a la ligne 33 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" dont la valeur est elle-même récupérée depuis l'API (handleData) soit reutilisée dans la constante "data" (situé à la ligne 108 au sein de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
+let imgUrl, altText, articleName                                                    // On met ici imgUrl, alText, articleName pour les memes raisons (pas reconnu par le localStorage)
+
 
 
 
@@ -30,7 +30,7 @@ function handleData(couch) {                                                    
     // const name = couch.name
     // const price = couch.price            
     const { altTxt, colors, description, imageUrl, name, price } = couch            // On récupère individuellement tous les objets qui sont stockées dans handledata
-    itemPrice = price                                                               // Pour remedier au problème de l'affichage du prix dans le localStorage on recupére ici le prix depuis l'api puis grace à la règle de priorité de la variable locale sur la variable globale le prix de la variable "itemPrice" situé à la ligne 8 est modifié. En effet, en règle générale, dans le cas ou une même variable (ici ItemPrice) est déclaré à la fois en local et en global, la variable locale (au sein d'une fonction) l'emporte sur la variable globale. "ItemPrice" dans sa ligne 8 ne vaut donc plus "0" mais "price".
+    itemPrice = price                                                               // Pour remedier au problème de l'accessibilité du prix de l'article à la constante "data" (située à ligne 108) on recupére ici le prix depuis l'api (price) et on la stocke dans la variable globale "itemPrice"(ligne 14) puis grâce à la règle de priorité de la variable locale sur la variable globale le prix de la variable "itemPrice" situé à la ligne 14 est modifié. "ItemPrice" dans sa ligne 14 ne vaut donc plus "0" mais la valeur contenue dans "price".
     imgUrl = imageUrl                                                               // meme raison que ci-dessus
     altText = altTxt                                                                // meme raison
     articleName = name                                                              // meme raison 
@@ -67,7 +67,7 @@ function makePrice(price) {                                                     
 
 
 
-function makeCartContent(description) {                                             // On ajoute ici la description des pices
+function makeCartContent(description) {                                             // On ajoute ici la description des articles
     const p = document.querySelector("#description")                                // On va chercher l'élément qui va encadrer la génération de la description (le <p id="description">) et on l'assigne à la variable p.
     if (p != null) p.textContent = description                                      // On y incorpore la description du produit comme dans le html de tel sorte que : "<p id="description">Un canapé 2 places en tissu gris clair</p>"
 }
@@ -109,10 +109,10 @@ function saveOrder(color, quantity) {                                           
         id: id,
         color: color,
         quantity: Number(quantity),                                                 // Quantity on en fait un Number. Pour eviter que dans la console les chiffres s'affichent en string. Exemple: "1" au lieu de 1.
-        price: itemPrice,                                                           // Avant = "price: price" mais on rencontrait des problemes pour que le localStorage parvienne a lire la valeur du prix. On reorganise alors le code en haut de la page de telle manière que la valeur du prix soit reconnu par le localStorage. Itemprice vaut ici "price" qui est tiré de l'API. cf. ligne 25
-        imageUrl: imgUrl,
-        altTxt: altText,
-        name: articleName
+        price: itemPrice,                                                           // Avant = "price: price" mais la constante "data" n'a pas pu accéder à la valeur contenue dans "price" (elle même récupérée de l'API cf.ligne 32,33). On crée donc une variable globale "itemPrice" (ligne 14) pour contourner le problème d'accessibilité de la valeur. Ici, itemPrice vaut donc en réalité "price" qui est tiré de l'API. 
+        imageUrl: imgUrl,                                                           // Meme raison que ci-dessus
+        altTxt: altText,                                                            // Meme raison que ci-dessus
+        name: articleName                                                           // Meme raison que ci-dessus
     }
     localStorage.setItem(key, JSON.stringify(data))                                                             // LocalStorage prend ici l'identifiant (ou la clé) et la valeur à stocker. De telle manière que : localStorage.setItem("identifiant", "valeur").   JSON.stringify --> LocalStorage n'est pas capable de storer des objets, on est obligé de les sérialiser, autrement dit, de les transformer en string. 
     
@@ -129,7 +129,7 @@ function saveOrder(color, quantity) {                                           
 
 function retrieveAllItemsFromStorage() {                                              // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
     const numberOfItems = localStorage.length                                         // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
-    for (let i = 0; i < numberOfItems; i++) {                                         // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
+    for (let i = 0; i < numberOfItems; i++) {                                         // On parcourt et récupère tous les articles présents dans le localStorage grace à une boucle for.
         const item = localStorage.getItem(localStorage.key(i)) || ""                  // On récupère chaque article du localStorage en utilisant la méthode getItem de l'interface Storage. On utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
         const itemObject = JSON.parse(item)                                           // On transforme la chaîne JSON en objet JavaScript en utilisant JSON.parse. Cela nous permet de récupérer les données de l'article sous forme d'objet.
         InStorage.push(itemObject)                                                    // On met l'objet récupéré dans le "InStorage" (panier) ci-dessus. 
