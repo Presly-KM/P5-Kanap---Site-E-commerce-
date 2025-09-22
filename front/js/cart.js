@@ -1,7 +1,7 @@
 const cart = []                                                                     // On veut une liste total des articles ajouté dans le panier. A chaque fois qu'un utilisateur clic sur "Ajouter dans le panier", on l'ajoute ("push") dans le panier(cart). De telle sorte que le tableau cart va rassembler tous les items qu'il aura recu.
 
 retrieveItemsFromStorage()                                                          // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier" on veut récupérer tous les objets qui ont été sauvegardés dans le localStorage puis les ajouter (push) dans le "cart"(panier) ci-dessus.
-cart.forEach((item) => displayItem(item))                                           // Pour chaque élement/article (item) qui est dans le cart (panier) on va afficher en html un récapitulatif de tous les articles choisis (item) par l'utilisateur (cf.DisplayItem(item) plus bas)
+cart.forEach((item) => displayItem(item))                                           // Pour chaque élement/article (item) qu'il y'a dans le cart (panier) on va afficher en html tous les articles choisis (item) par l'utilisateur (cf.DisplayItem(item) plus bas)
 
 // altTxt: "Photo d'un canapé jaune et noir, quattre places"      ==> Tout ça c'est "item"
 // color: "Black/Yellow"
@@ -18,7 +18,7 @@ orderButton.addEventListener("click", (e) => submitForm(e))                     
 function retrieveItemsFromStorage() {                                               // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
     const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
     for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
-        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupere maintenant au sein du localStorage l'objet choisi (i) par l'utilisateur par l'intermédiaire de sa clé (identifiant de l'objet (ou des objets))
+        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupère chaque article (item) du localStorage en utilisant la méthode getItem de l'interface Storage. Les articles sont récupérés par l'intermédiaire de leur clés. En effet, on utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
         const itemObject = JSON.parse(item)                                         // On parse l'objet récupéré pour le transformer en objet javascript. On utilise JSON.parse pour transformer une chaîne de caractères en objet javascript.
         cart.push(itemObject)                                                       // On met l'objet récupéré dans le "cart" (panier) ci-dessus.
     } 
@@ -196,7 +196,7 @@ function submitForm(e) {                                                        
         }
     })
         .then((res) => res.json())                                                                            // On utilise la méthode then pour traiter la réponse de l'API. On transforme la réponse en JSON.
-        .then((data) => {                                                                                     // Une fois qu'on a récupéré la réponse
+        .then((data) => {                                                                                     // Une fois qu'on a récupéré la réponse...
             const orderId = data.orderId                                                                      // 
             window.location.href = "\confirmation.html" + "?orderId=" + orderId                               // ...on redirige l'utilisateur vers la page de confirmation de commande en lui passant l'orderId en paramètre dans l'URL. 
         })
