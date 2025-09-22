@@ -116,23 +116,23 @@ function saveOrder(color, quantity) {                                           
     }
     localStorage.setItem(key, JSON.stringify(data))                                                             // LocalStorage prend ici l'identifiant (ou la clé) et la valeur à stocker. De telle manière que : localStorage.setItem("identifiant", "valeur").   JSON.stringify --> LocalStorage n'est pas capable de storer des objets, on est obligé de les sérialiser, autrement dit, de les transformer en string. 
     
-    const itemToUpdate = InStorage.find((item) => item.id === id && item.color === color);                         // On cherche si l'article existe déjà dans le panier en utilisant la méthode find. On compare l'id et la couleur de l'article pour trouver une correspondance. Si l'article existe, on le met à jour.
-    if (itemToUpdate != null) {                                                                                 // On vérifie si l'article à modfier est bien présent dans le panier/dans le localStorage.
-        increaseOfQuantity = itemToUpdate.quantity + Number(quantity)                                           // On additionne la quantité déjà présente dans le panier avec la nouvelle quantité sélectionnée par l'utilisateur. On utilise Number pour convertir la valeur de quantity en nombre.
-        itemToUpdate.quantity = increaseOfQuantity                                                              // On met à jour la quantité de l'article dans l'objet data.                                                                               // On affiche une alerte pour informer l'utilisateur que l'article est déjà présent dans le panier et que la quantité a été mise à jour.                            
+    const itemToUpdate = InStorage.find((item) => item.id === id && item.color === color);                      // On cherche si l'article existe déjà dans le panier (dans le localStorage) en utilisant la méthode find. On compare l'id et la couleur de l'article pour trouver une correspondance. Si l'article existe, on le met à jour.
+    if (itemToUpdate != null) {                                                                                 // On vérifie si l'article à modifier est bien présent dans le panier/dans le localStorage.
+        increaseOfQuantity = itemToUpdate.quantity + Number(quantity)                                           // Si l'article est déjà présent dans le panier/localstorage, on additionne la quantité déjà présente dans le panier avec la nouvelle quantité sélectionnée par l'utilisateur. On utilise Number pour convertir la valeur de quantity en nombre.
+        itemToUpdate.quantity = increaseOfQuantity                                                              // On met à jour la quantité de l'article dans l'objet data.                                                                                                          
         localStorage.setItem(key, JSON.stringify(itemToUpdate))                                                 // On met à jour les données de l'article dans le localStorage en utilisant la clé unique créée précédemment. On utilise la méthode setItem pour mettre à jour les données et JSON.stringify pour les transformer en chaîne de caractères.                                                                                                                // On va chercher l'élément qui va encadrer la génération de la quantité (le <input id="quantity">) et on l'assigne à la variable inputItemQuantity.
-        alert(`This item is already in the cart. The quantity has been increased : ${increaseOfQuantity}`)       
+        alert(`This item is already in the cart. The quantity has been increased : ${increaseOfQuantity}`)      // On affiche une alerte pour informer l'utilisateur que l'article est déjà présent dans le panier et que la quantité a été mise à jour. 
     }
 }
 
 
 
 function retrieveAllItemsFromStorage() {                                              // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
-    const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
-    for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
-        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupère chaque article du localStorage en utilisant la méthode getItem de l'interface Storage. On utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
-        const itemObject = JSON.parse(item)                                         // On transforme la chaîne JSON en objet JavaScript en utilisant JSON.parse. Cela nous permet de récupérer les données de l'article sous forme d'objet.
-        InStorage.push(itemObject)                                                     // On met l'objet récupéré dans le "InStorage" (panier) ci-dessus. 
+    const numberOfItems = localStorage.length                                         // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
+    for (let i = 0; i < numberOfItems; i++) {                                         // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
+        const item = localStorage.getItem(localStorage.key(i)) || ""                  // On récupère chaque article du localStorage en utilisant la méthode getItem de l'interface Storage. On utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
+        const itemObject = JSON.parse(item)                                           // On transforme la chaîne JSON en objet JavaScript en utilisant JSON.parse. Cela nous permet de récupérer les données de l'article sous forme d'objet.
+        InStorage.push(itemObject)                                                    // On met l'objet récupéré dans le "InStorage" (panier) ci-dessus. 
     }
 }
 
