@@ -1,7 +1,7 @@
 //@ts-nocheck
-const Basket = []                                                                   // On crée un tableau vide qui va contenir les articles stockés dans le panier. On l'assigne à la variable Basket.
+const InStorage = []                                                                // On crée un tableau vide qui va contenir les articles envoyés dans le panier(dans le localStorage) par l'utilisateur. On l'assigne à la variable InStorage.
 
-retrieveAllItemsFromCache()                                                         // On appelle la fonction retrieveAllItemsFromCache pour récupérer tous les articles du panier stockés dans le localStorage.
+retrieveAllItemsFromStorage()                                                       // On appelle la fonction retrieveAllItemsFromStorage pour récupérer tous les articles du panier stockés dans le localStorage.
 
 
 const queryString = window.location.search                                          // Window.location.search est une propriété qui renvoie la partie de l'URL qui suit le "?" et qui contient les paramètres de la requête.(Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83). Elle retourne la partie chaines de requête (Querystring) de l'URL qui commence par le "?" et qui contient les paramètres de la requête.
@@ -10,7 +10,7 @@ const id = urlParams.get("id")                                                  
 
 
 
-if (id != null) {                                                                   // On crée ici une variable globale pour gérer le problème dans la fonction "saveorder" concernant le localStorage. si l'id existe...
+if (id != null) {                                                                   // On crée ici une variable globale pour gérer le problème dans la fonction "saveorder" concernant le localStorage. si l'id existe... NOTE if à supprimer : ne garder que ligne 14 et 15 englober le fetch aussi
     let itemPrice = 0                                                               // On met ici le prix(Itemprice) à 0 par defaut afin qu'il soit modifié par le prix contenu dans l'api au sein de la fonction "handledata(couch)" a la ligne 33 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" venant de l'API (handleData) soit reutilisée dans "data" (de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
     let imgUrl, altText, articleName                                                // On met ici imgUrl, alText, articleName pour les memes raisons (pas reconnu par le localStorage)
 }
@@ -116,7 +116,7 @@ function saveOrder(color, quantity) {                                           
     }
     localStorage.setItem(key, JSON.stringify(data))                                                             // LocalStorage prend ici l'identifiant (ou la clé) et la valeur à stocker. De telle manière que : localStorage.setItem("identifiant", "valeur").   JSON.stringify --> LocalStorage n'est pas capable de storer des objets, on est obligé de les sérialiser, autrement dit, de les transformer en string. 
     
-    const itemToUpdate = Basket.find((item) => item.id === id && item.color === color);                         // On cherche si l'article existe déjà dans le panier en utilisant la méthode find. On compare l'id et la couleur de l'article pour trouver une correspondance. Si l'article existe, on le met à jour.
+    const itemToUpdate = InStorage.find((item) => item.id === id && item.color === color);                         // On cherche si l'article existe déjà dans le panier en utilisant la méthode find. On compare l'id et la couleur de l'article pour trouver une correspondance. Si l'article existe, on le met à jour.
     if (itemToUpdate != null) {                                                                                 // On vérifie si l'article à modfier est bien présent dans le panier/dans le localStorage.
         increaseOfQuantity = itemToUpdate.quantity + Number(quantity)                                           // On additionne la quantité déjà présente dans le panier avec la nouvelle quantité sélectionnée par l'utilisateur. On utilise Number pour convertir la valeur de quantity en nombre.
         itemToUpdate.quantity = increaseOfQuantity                                                              // On met à jour la quantité de l'article dans l'objet data.                                                                               // On affiche une alerte pour informer l'utilisateur que l'article est déjà présent dans le panier et que la quantité a été mise à jour.                            
@@ -127,12 +127,12 @@ function saveOrder(color, quantity) {                                           
 
 
 
-function retrieveAllItemsFromCache() {                                              // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
+function retrieveAllItemsFromStorage() {                                              // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
     const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
     for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
         const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupère chaque article du localStorage en utilisant la méthode getItem de l'interface Storage. On utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
         const itemObject = JSON.parse(item)                                         // On transforme la chaîne JSON en objet JavaScript en utilisant JSON.parse. Cela nous permet de récupérer les données de l'article sous forme d'objet.
-        Basket.push(itemObject)                                                     // On met l'objet récupéré dans le "Basket" (panier) ci-dessus.
+        InStorage.push(itemObject)                                                     // On met l'objet récupéré dans le "InStorage" (panier) ci-dessus. 
     }
 }
 
