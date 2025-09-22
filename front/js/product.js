@@ -2,6 +2,10 @@
 const queryString = window.location.search                                          // Window.location.search est une propriété qui renvoie la partie de l'URL qui suit le "?" et qui contient les paramètres de la requête.(Ex : ?id=a557292fe5814ea2b15c6ef4bd73ed83). Elle retourne la partie chaines de requête (Querystring) de l'URL qui commence par le "?" et qui contient les paramètres de la requête.
 const urlParams = new URLSearchParams(queryString)                                  // URLSearchParams est une interface qui fournit des méthodes pour travailler avec les paramètres d'URL. Elle permet de récupérer les valeurs des paramètres de la requête en utilisant leur nom.
 const id = urlParams.get("id")                                                      // On veut récupérer la valeur de l"id du produit (qui se trouve au sein du querystring) . La constante id va donc ici automatiquement afficher la valeur de l'id ciblée (les inscriptions après le "?") On utilise la méthode get de l'interface URLSearchParams pour récupérer la valeur de l'id ciblé.
+if (id != null) {                                                                   // On crée ici une variable globale pour gérer le problème dans la fonction "saveorder" concernant le localStorage. si l'id existe... NOTE if à supprimer : ne garder que ligne 14 et 15 englober le fetch aussi
+    let itemPrice = 0                                                               // On met ici le prix(Itemprice) à 0 par defaut afin qu'il soit modifié par le prix contenu dans l'api au sein de la fonction "handledata(couch)" a la ligne 33 selon la règle de priorité de la variable locale sur la variable globale et qu'ainsi la nouvelle valeur d'"ItemPrice" puisée dans le "price" venant de l'API (handleData) soit reutilisée dans "data" (de la fonction saveOrder) et puisse ainsi être désormais reconnu dans le localStorage (car la valeur du prix avant ce procédé n'etait pas reconnu par le LocalStorage)
+}
+
 
 fetch(`http://localhost:3000/api/products/${id}`)                                   // On fait une deuxième requête au serveur pour récupèrer les données propres à l'id du produit que l'on cible (sur lequel on a cliqué). La valeur de l'id est ici récupérée grâce à l'URLSearchParams. (cf.ligne 8à9)  
     .then((response) => response.json())                                            // On va chercher la réponse de l'API contenant les données propres à l'id ciblé et on la transforme en JSON. 
@@ -10,6 +14,7 @@ fetch(`http://localhost:3000/api/products/${id}`)                               
 
 function handleData(couch) {                                                        // On crée une fonction qui va nous permettre de gérer les données du produit. On lui passe en paramètre les données du produit (couch).
     const { altTxt, colors, description, imageUrl, name, price } = couch            // On récupère individuellement tous les objets qui sont stockées dans handledata                                                             
+    itemPrice = price                                                               // On modifie la valeur de la variable globale "itemPrice" (cf.ligne 6) par la valeur du prix (price) qui est tirée de l'API. On fait cela pour que le localStorage puisse reconnaitre la valeur du prix et l'inclure dans le panier. cf. ligne 76
     makeImage(imageUrl, altTxt)                                                     // Après avoir récupéré indivuellment les données, on les passe dans les fonctions makeImage, makeTitle, makePrice, makeDescription et makeColors 
     makeTitle(name)
     makePrice(price)
@@ -77,9 +82,10 @@ button.addEventListener("click", (e) => {                                       
     const data = {                                                                  // On crée un objet data qui va contenir toutes les informations de l'article à stocker dans le localStorage. On utilise la syntaxe d'objet littéral pour créer l'objet.
         id: id,
         color: color,
-        quantity: quantity,                                                 // Quantity on en fait un Number. Pour eviter que dans la console les chiffres s'affichent en string. Exemple: "1" au lieu de 1.
-        price: price,                                                           // Avant = "price: price" mais on rencontrait des problemes pour que le localStorage parvienne a lire la valeur du prix. On reorganise alors le code en haut de la page de telle manière que la valeur du prix soit reconnu par le localStorage. Itemprice vaut ici "price" qui est tiré de l'API. cf. ligne 25
+        quantity: Number(quantity),                                                 // Quantity on en fait un Number. Pour eviter que dans la console les chiffres s'affichent en string. Exemple: "1" au lieu de 1.
+        price: itemPrice,                                                           // Avant = "price: price" mais on rencontrait des problemes pour que le localStorage parvienne a lire la valeur du prix. On reorganise alors le code en haut de la page de telle manière que la valeur du prix soit reconnu par le localStorage. Itemprice vaut ici "price" qui est tiré de l'API. cf. ligne 25
     }
     localStorage.setItem(id, JSON.stringify(data))                                                             // LocalStorage prend ici l'identifiant (ou la clé) et la valeur à stocker. De telle manière que : localStorage.setItem("identifiant", "valeur").   JSON.stringify --> LocalStorage n'est pas capable de storer des objets, on est obligé de les sérialiser, autrement dit, de les transformer en string. 
-  })
+    window.location.href = "cart.html"
+})
 }
