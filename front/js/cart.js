@@ -1,7 +1,7 @@
-const cart = []                                                                     // On veut une liste total du panier (cart) : on dit que a chaque fois qu'on trouve un objet, on l'ajoute ("push") dans le panier(cart). De telle sorte que le cart va rassembler tous les items qu'il aura recu.
+const cart = []                                                                     // On veut une liste total des articles ajouté dans le panier. A chaque fois qu'un utilisateur clic sur "Ajouter dans le panier", on l'ajoute ("push") dans le panier(cart). De telle sorte que le tableau cart va rassembler tous les items qu'il aura recu.
 
-retrieveItemsFromCache()                                                            // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier" on veut récupérer tous les objets qui ont été sauvegardés dans le localStorage puis les ajouter (push) dans le "cart"(panier) ci-dessus.
-cart.forEach((item) => displayItem(item))                                           // Pour chaque élement (item) qui est dans le cart (panier) on va afficher en html un récapitulatif de tous les articles choisis (item) par l'utilisateur (cf.DisplayItem(item) plus bas)
+retrieveItemsFromStorage()                                                          // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier" on veut récupérer tous les objets qui ont été sauvegardés dans le localStorage puis les ajouter (push) dans le "cart"(panier) ci-dessus.
+cart.forEach((item) => displayItem(item))                                           // Pour chaque élement/article (item) qui est dans le cart (panier) on va afficher en html un récapitulatif de tous les articles choisis (item) par l'utilisateur (cf.DisplayItem(item) plus bas)
 
 // altTxt: "Photo d'un canapé jaune et noir, quattre places"      ==> Tout ça c'est "item"
 // color: "Black/Yellow"
@@ -15,10 +15,10 @@ const orderButton = document.querySelector("#order")                            
 orderButton.addEventListener("click", (e) => submitForm(e))                         // On ajoute un écouteur d'événement "click" sur le bouton "Commander". Quand on clique sur le bouton, on appelle la fonction submitForm en lui passant l'événement (e) en paramètre.
 
 
-function retrieveItemsFromCache() {                                                 // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
+function retrieveItemsFromStorage() {                                               // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
     const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
     for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
-        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupere maintenant au sein du local storage l'objet choisi (i) par l'utilisateur par la clé (identifiant de l'objet (ou des objets))
+        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupere maintenant au sein du localStorage l'objet choisi (i) par l'utilisateur par l'intermédiaire de sa clé (identifiant de l'objet (ou des objets))
         const itemObject = JSON.parse(item)                                         // On parse l'objet récupéré pour le transformer en objet javascript. On utilise JSON.parse pour transformer une chaîne de caractères en objet javascript.
         cart.push(itemObject)                                                       // On met l'objet récupéré dans le "cart" (panier) ci-dessus.
     } 
@@ -100,26 +100,26 @@ function deleteArticleFromPage(item) {                                          
 
 function addQuantityToSettings(settings, item) {                                                                        // On crée la fonction chargée d'ajouter et afficher l'option de modification de la quantité d'articles sélectionnés par l'utilisateur.
     const quantity = document.createElement("div")
-    quantity.classList.add("cart__item__content__settings__quantity")
+    quantity.classList.add("cart__item__content__settings__quantity")                                                   // On crée une div pour la quantité d'articles sélectionnés par l'utilisateur et on lui ajoute la classe "cart__item__content__settings__quantity" pour pouvoir la cibler plus facilement.
     const p = document.createElement("p")
-    p.textContent = "Qté : "
+    p.textContent = "Qté : "                                                                                            // On crée un paragraphe "p" pour afficher le texte "Qté : " avant le champ de saisie de la quantité.
     quantity.appendChild(p)
     const input = document.createElement("input")
-    input.type = "number"                                                                                              
-    input.classList.add("itemQuantity")
-    input.name = "itemQuantity"
+    input.type = "number"                                                                                               // On crée un champ de saisie de type "number" pour permettre à l'utilisateur de modifier la quantité d'articles sélectionnés.                           
+    input.classList.add("itemQuantity")                                                                                 // On ajoute la classe "itemQuantity" au champ de saisie de la quantité pour pouvoir le cibler plus facilement.
+    input.name = "itemQuantity"                                                                                         // On ajoute le nom "itemQuantity" au champ de saisie de la quantité pour pouvoir le cibler plus facilement.    
     input.min = "1"
     input.max = "100"
     input.value = item.quantity                                                                                         // On assigne la valeur de l'input à la quantité de l'article (ou des articles) sélectionné par l'utilisateur. On utilise item.quantity pour récupérer la quantité de l'article sélectionné par l'utilisateur.
-    input.addEventListener("input", () => updatePriceandQuantity(item.id, item.color, input.value, item))                           // On ajoute un écouteur d'événement "input" sur le champ de saisie de la quantité. Quand on modifie la quantité, on appelle la fonction updatePriceandQuantity en lui passant l'id de l'article sélectionné par l'utilisateur, la nouvelle valeur de la quantité et l'article sélectionné par l'utilisateur.
+    input.addEventListener("input", () => updatePriceandQuantity(item.id, item.color, input.value, item))               // On ajoute un écouteur d'événement "input" sur le champ de saisie de la quantité. Quand on modifie la quantité, on appelle la fonction updatePriceandQuantity en lui passant l'id de l'article sélectionné par l'utilisateur, la nouvelle valeur de la quantité et l'article sélectionné par l'utilisateur.
 
     quantity.appendChild(input)
     settings.appendChild(quantity)
 }
 
-function updatePriceandQuantity(id, color, newValue, item) {                                                                   // Il s'agit de mettre à jour/modifier de manière simultanée le total du prix/quantité d'articles ajouté dans le panier par l'utilisateur en même temps qu'il manipule les inputs dédiés à la quantité d'articles souhaités.                                                     
-    const itemToUpdate = cart.find((item) => item.id === id && item.color === color);                                                            // On va chercher l'article à mettre à jour, c'est à dire l'article ayant une id égale à l'id de l'article dont la quantité vient d'être modifié par l'utilisateur. On assigne le tout à la variable itemToUpdate. Autrement dit : Quand tu vois un changement sur le input va chercher dans le cart l'item qui a cette id... 
-    itemToUpdate.quantity = Number(newValue)                                                                            // Une fois que l'article à mettre à jour (donc celui qui vient d'etre modifié) est trouvé, sa quantité devient désormais la nouvelle valeur entrée par l'utilisateur (forcément convertit en nombre grace à "Number")
+function updatePriceandQuantity(id, color, newValue, item) {                                                            // Il s'agit de mettre à jour/modifier de manière simultanée le total du prix/quantité d'articles ajouté dans le panier par l'utilisateur en même temps qu'il manipule les inputs dédiés à la quantité d'articles souhaités.                                                     
+    const itemToUpdate = cart.find((item) => item.id === id && item.color === color);                                   // On va chercher l'article à mettre à jour, c'est à dire l'article ayant une id égale à l'id de l'article dont la quantité vient d'être modifié par l'utilisateur. On assigne le tout à la variable itemToUpdate. Autrement dit : Quand tu vois un changement sur le input va chercher dans le cart l'item qui a cet id.
+    itemToUpdate.quantity = Number(newValue)                                                                            // Une fois que l'article à mettre à jour (donc celui qui vient d'etre modifié/manipulé) est trouvé, sa quantité devient désormais la nouvelle valeur entrée par l'utilisateur (forcément convertit en nombre grace à "Number")
     item.quantity = itemToUpdate.quantity                                                                               // La nouvelle valeur (de quantité) entrée par l'utilisateur sur un article donné, devient la quantité de cet article. 
     displayTotalQuantity()                                                                                              // On appelle la fonction displayTotalQuantity pour mettre à jour (recalculer) le nombre total (la quantité) d'articles ajoutés dans le panier suite aux modifications de l'input. 
     displayTotalPrice()                                                                                                 // On appelle la fonction displayTotalPrice pour mettre à jour (recalculer) le prix total d'articles ajoutés dans le panier suite aux modifications de l'input. 
