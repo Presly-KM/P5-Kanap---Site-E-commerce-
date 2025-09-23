@@ -18,7 +18,7 @@ orderButton.addEventListener("click", (e) => submitForm(e))                     
 function retrieveItemsFromStorage() {                                               // Concernant les articles pour lesquels on a cliqué sur "Ajouter dans le panier", on veut récupérer ces articles stokés dans le localStorage pour après les faire apparaitre dans le panier (cart.html).
     const numberOfItems = localStorage.length                                       // On veut savoir combien d'articles sont présents dans le localStorage. On utilise localStorage.length. On l'assigne à la variable numberOfItems.
     for (let i = 0; i < numberOfItems; i++) {                                       // On parcours et récupère tous les articles présents dans le localStorage grace à une boucle for.
-        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupère chaque article (item) du localStorage en utilisant la méthode getItem de l'interface Storage. Les articles sont récupérés par l'intermédiaire de leur clés. En effet, on utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "".
+        const item = localStorage.getItem(localStorage.key(i)) || ""                // On récupère chaque article (item) du localStorage en utilisant la méthode getItem de l'interface Storage. Les articles sont récupérés par l'intermédiaire de leur clés. En effet, on utilise localStorage.key(i) pour récupérer la clé de chaque article. Si l'article n'existe pas, on lui assigne une chaîne vide "" (on evite ainis les messages d'erreur).
         const itemObject = JSON.parse(item)                                         // On parse l'objet récupéré pour le transformer en objet javascript. On utilise JSON.parse pour transformer une chaîne de caractères en objet javascript.
         cart.push(itemObject)                                                       // On met l'objet récupéré dans le "cart" (panier) ci-dessus.
     } 
@@ -26,13 +26,13 @@ function retrieveItemsFromStorage() {                                           
 
 
 
-function displayItem(item) {                                                        // On veut afficher le récapitulatif d'articles présent dans le panier. 
-    const article = makeArticle(item)                                               // On appelle la fonction makeArticle pour créer un "article" (balise html) qui va contenir l'objet sélectionné par l'utilisateur.
-    const imageDiv = makeImageDiv(item)                                             // On crée une div pour l'image de l'article sélectionné par l'utilisateur et on l'assigne à la variable imageDiv. On appelle la fonction makeImageDiv pour créer la div.
-    article.appendChild(imageDiv)                                                   // On ajoute la div de l'image  à l'article (balise html) en tant qu'enfant. 
+function displayItem(item) {                                                        // On veut afficher en html la liste des articles présents dans le panier. 
+    const article = makeArticle(item)                                               // On appelle la fonction makeArticle pour créer un <article> (balise html) qui va contenir l'objet sélectionné par l'utilisateur.
+    const imageDiv = makeImageDiv(item)                                             // On crée une div pour l'image de <article> sélectionné par l'utilisateur et on l'assigne à la variable imageDiv. On appelle la fonction makeImageDiv pour créer la div.
+    article.appendChild(imageDiv)                                                   // On ajoute la div de l'image  à <article> (balise html) en tant qu'enfant. 
     const cardItemContent = makeCartContent(item)                                   // On ajoute le descriptif/résumé de l'objet (nom de l'objet, la couleur choisie, son prix, la quantité choisie) sélectionné par l'utilisateur juste en dessous de l'image représentant ledit objet. On appelle la fonction makeCartContent pour se faire.
-    article.appendChild(cardItemContent)                                            // Grace à appenChild, on ajoute le descriptif/résumé de l'objet (ou des objets) sélectionné par l'utilisateur à l'article (balise html) en tant qu'enfant.
-    displayArticle(article)                                                         // On ajoute le "article" (balise html) en tant qu'enfant de l'id "#cart__items". On appelle la fonction displayArticle pour se faire.
+    article.appendChild(cardItemContent)                                            // Grace à appenChild, on ajoute le descriptif/résumé de l'objet (ou des objets) sélectionné par l'utilisateur à <article> (balise html) en tant qu'enfant.
+    displayArticle(article)                                                         // On ajoute le <article> (balise html) en tant qu'enfant de l'id "#cart__items". On appelle la fonction displayArticle pour se faire.
     displayTotalQuantity()                                                          // On affiche le nombre total (la quantité) d'objets ajoutés dans le panier. On appelle la fonction displayTotalQuantity pour se faire.
     displayTotalPrice()                                                             // On affiche le prix total d'objets ajoutés dans le panier. On appelle la fonction displayTotalPrice pour se faire.
 }
@@ -41,22 +41,22 @@ function displayItem(item) {                                                    
 
 function displayTotalQuantity() {                                                   // On veut connaitre le nombre total (la quantité) d'articles ajoutés dans le panier. 
     const totalQuantity = document.querySelector("#totalQuantity")                  // On va chercher dans cart.html l'élément qui va encadrer l'affichage du nombre total d'articles ajoutés dans le panier (id="totalQuantity") et on l'assigne à la variable totalQuantity.
-    const total = cart.reduce((total, item) => total + item.quantity, 0)            // Reduce est une fonction qui permet de transformer une array en une seule valeur (ici le total). On va additionner la quantité de chaque article (item.quantity) pour avoir le nombre total d'articles dans le panier. On initialise le total à 0.
-    totalQuantity.textContent = total
+    const total = cart.reduce((total, item) => total + item.quantity, 0)            // Reduce est une fonction qui permet de transformer une array en une seule valeur (ici le total). On va additionner la quantité de chaque article (item.quantity) pour avoir le nombre total d'articles dans le panier. On initialise le total à 0. Plus précisément : Ici "total" est l'accumulateur qui va contenir la somme des quantités d'articles. item est l'élément courant / un objet entier de l'array cart. Puis on calcule la somme totale des quantités d'articles en additionnant total (l'accumulateur) et item.quantity (la quantité de l'article / de l'objet).
+    totalQuantity.textContent = total                                               // On affiche en HTML le nombre total (la quantité) d'articles ajoutés dans le panier.
 }
 
 function displayTotalPrice() {                                                                  // On veut connaitre le prix total des articles ajoutés dans le panier
     const totalPrice = document.querySelector("#totalPrice")                                    // On va chercher dans cart.html l'élément qui va encadrer l'affichage du prix total d'articles ajoutés dans le panier (id="totalPrice") et on l'assigne à la variable totalPrice.
     const total = cart.reduce((total, item) => total + item.price * item.quantity, 0)           // On va multiplier le prix de l'article par la quantité choisie par l'utilisateur. On additionne le tout pour avoir le prix total.
-    totalPrice.textContent = total                                                              // On affiche le prix total calculé.
+    totalPrice.textContent = total                                                              // On affiche en HTML le prix total d'articles ajoutés dans le panier.
 }
 
 
 function makeCartContent(item) {                                                                // On veut afficher le descriptif/résumé de l'article (ou des articles) sélectionné par l'utilisateur (nom de l'objet, la couleur choisie, son prix, la quantité choisie).
     const cardItemContent = document.createElement("div")
-    cardItemContent.classList.add("cart__item__content")
+    cardItemContent.classList.add("cart__item__content")                                        // On crée une div pour le contenu de l'article (ou des articles) sélectionné par l'utilisateur et on lui ajoute la classe "cart__item__content" pour pouvoir la cibler plus facilement.
 
-    const description = makeDescription(item)
+    const description = makeDescription(item)                                                   // On appelle la fonction makeDescription pour créer la div qui va contenir le descriptif/résumé de l'article (ou des articles) sélectionné par l'utilisateur (nom de l'objet, la couleur choisie, son prix, la quantité choisie).
     const settings = makeSettings(item)                                                         // On appelle la fonction makeSettings pour gérer les paramètres de l'article (ou des articles) sélectionné par l'utilisateur (modification de la quantité d'objets et suppression d'un objet du panier).
 
     cardItemContent.appendChild(description)
@@ -67,7 +67,7 @@ function makeCartContent(item) {                                                
 
 function makeSettings(item) {                                                                   // On veut afficher puis gérer les paramètres permettant d'une part de modifier la quantité d'articles sélectionnés par l'utilisateur et d'autre part de supprimer un objet du panier.
     const settings = document.createElement("div")
-    settings.classList.add("cart__item__content__settings")
+    settings.classList.add("cart__item__content__settings")                                     // On crée une div pour les paramètres de l'article (ou des articles) sélectionné par l'utilisateur et on lui ajoute la classe "cart__item__content__settings" pour pouvoir la cibler plus facilement.
 
     addQuantityToSettings(settings, item)                                                       // On appelle la fonction addQuantityToSettings pour gérer la quantité d'articles sélectionnés par l'utilisateur. On lui passe en paramètre les paramètres de l'objet (ou des objets) sélectionné par l'utilisateur.
     addDeletetoSettings(settings, item)                                                         // On appelle la fonction addDeletetoSettings pour gérer la suppression d'un article du panier. On lui passe en paramètre les paramètres de l'objet (ou des objets) sélectionné par l'utilisateur.
@@ -81,7 +81,7 @@ function addDeletetoSettings(settings, item) {                                  
     const p = document.createElement("p")
     p.textContent = "Supprimer"
     div.appendChild(p)
-    settings.appendChild(div)
+    settings.appendChild(div)                                                                   // On ajoute la div de l'option "Supprimer" à la div des paramètres (settings) en tant qu'enfant.
 }
 
 function deleteItem(item) {                                                                                             // Gestion de la suppression d'un article du panier
@@ -89,16 +89,16 @@ function deleteItem(item) {                                                     
     cart.splice(itemToDelete, 1)                                                                                        // On utilise la méthode splice pour supprimer l'article du panier (cart) en lui passant l'index de l'article à supprimer et le nombre d'articles à supprimer (1).
     displayTotalPrice()                                                                                                 // On appelle la fonction displayTotalPrice pour mettre à jour le prix total d'articles ajoutés dans le panier suite a la supression.
     displayTotalQuantity()                                                                                              // On appelle la fonction displayTotalQuantity pour mettre à jour le nombre total (la quantité) d'articles ajoutés dans le panier suite à la supression.
-    deleteDataFromCache(item)                                                                                           // On appelle la fonction deleteDataFromCache pour supprimer l'objet du localStorage. 
+    deleteDataFromStorage(item)                                                                                           // On appelle la fonction deleteDataFromStorage pour supprimer l'objet du localStorage. 
     deleteArticleFromPage(item)                                                                                         // On appelle la fonction deleteArticleFromPage pour supprimer l'objet du panier (html) .
 }
 
 function deleteArticleFromPage(item) {                                                                                  // On veut supprimer l'article du panier (html) .  
-    const articleToDelete = document.querySelector(`article[data-id="${item.id}"][data-color="${item.color}"]`)         // On va chercher l'article à supprimer en utilisant le selecteur "article[data-id=" + item.id + "][data-color=" + item.color + "]" pour cibler l'article (balise html) à supprimer grace à son id et la couleur choisie par l'utilisateur.
+    const articleToDelete = document.querySelector(`article[data-id="${item.id}"][data-color="${item.color}"]`)         // On va chercher l'article à supprimer en utilisant le selecteur "article[data-id=" + item.id + "][data-color=" + item.color + "]" pour cibler l'article (balise html) à supprimer grace à son id et la couleur choisie par l'utilisateur. (cf ligne 164 et 165)
     articleToDelete.remove()                                                                                            // On supprime l'article du panier (html) en utilisant la méthode remove() pour supprimer un élément du DOM.
 }
 
-function addQuantityToSettings(settings, item) {                                                                        // On crée la fonction chargée d'ajouter et afficher l'option de modification de la quantité d'articles sélectionnés par l'utilisateur.
+function addQuantityToSettings(settings, item) {                                                                        // On crée la fonction chargée d'ajouter et afficher l'input de modification de la quantité d'articles sélectionnés par l'utilisateur. (Fonction appelée à la ligne 72)
     const quantity = document.createElement("div")
     quantity.classList.add("cart__item__content__settings__quantity")                                                   // On crée une div pour la quantité d'articles sélectionnés par l'utilisateur et on lui ajoute la classe "cart__item__content__settings__quantity" pour pouvoir la cibler plus facilement.
     const p = document.createElement("p")
@@ -109,32 +109,32 @@ function addQuantityToSettings(settings, item) {                                
     input.classList.add("itemQuantity")                                                                                 // On ajoute la classe "itemQuantity" au champ de saisie de la quantité pour pouvoir le cibler plus facilement.
     input.name = "itemQuantity"                                                                                         // On ajoute le nom "itemQuantity" au champ de saisie de la quantité pour pouvoir le cibler plus facilement.    
     input.min = "1"
-    input.max = "100"
-    input.value = item.quantity                                                                                         // On assigne la valeur de l'input à la quantité de l'article (ou des articles) sélectionné par l'utilisateur. On utilise item.quantity pour récupérer la quantité de l'article sélectionné par l'utilisateur.
-    input.addEventListener("input", () => updatePriceandQuantity(item.id, item.color, input.value, item))               // On ajoute un écouteur d'événement "input" sur le champ de saisie de la quantité. Quand on modifie la quantité, on appelle la fonction updatePriceandQuantity en lui passant l'id de l'article sélectionné par l'utilisateur, la nouvelle valeur de la quantité et l'article sélectionné par l'utilisateur.
+    input.max = "100"                                                                                                   // On définit la valeur minimale (1) et maximale (100) que l'utilisateur peut entrer dans le champ de saisie de la quantité.
+    input.value = item.quantity                                                                                         // On initialise la valeur du champ de saisie de la quantité avec la quantité actuelle de l'article sélectionné par l'utilisateur.
+    input.addEventListener("input", () => updatePriceandQuantity(item.id, item.color, input.value, item))               // On ajoute un écouteur d'événement "input" sur le champ de saisie de la quantité. Quand on modifie la quantité, on appelle la fonction updatePriceandQuantity (cf.ligne 120) en lui passant l'id de l'article sélectionné par l'utilisateur, la nouvelle valeur de la quantité et l'article sélectionné par l'utilisateur. (Grace au listener l'id de l'article manipulé est reconnu et on peut ainsi modifier la quantité de l'article en question et pas celle d'un autre article).
 
     quantity.appendChild(input)
     settings.appendChild(quantity)
 }
 
-function updatePriceandQuantity(id, color, newValue, item) {                                                            // Il s'agit de mettre à jour/modifier de manière simultanée le total du prix/quantité d'articles ajouté dans le panier par l'utilisateur en même temps qu'il manipule les inputs dédiés à la quantité d'articles souhaités.                                                     
-    const itemToUpdate = cart.find((item) => item.id === id && item.color === color);                                   // On va chercher l'article à mettre à jour, c'est à dire l'article ayant une id égale à l'id de l'article dont la quantité vient d'être modifié par l'utilisateur. On assigne le tout à la variable itemToUpdate. Autrement dit : Quand tu vois un changement sur le input va chercher dans le cart l'item qui a cet id.
-    itemToUpdate.quantity = Number(newValue)                                                                            // Une fois que l'article à mettre à jour (donc celui qui vient d'etre modifié/manipulé) est trouvé, sa quantité devient désormais la nouvelle valeur entrée par l'utilisateur (forcément convertit en nombre grace à "Number")
+function updatePriceandQuantity(id, color, newValue, item) {                                                            // Il s'agit de mettre à jour/modifier de manière simultanée le total du prix/quantité d'articles ajouté dans le panier par l'utilisateur en même temps qu'il manipule les inputs dédiés à la quantité d'articles souhaités. Il prend en paramètre l'id de l'article sélectionné par l'utilisateur, la couleur choisie, la nouvelle valeur de la quantité et l'article sélectionné par l'utilisateur. (Fonction appelée à la ligne 114)                                                   
+    const itemToUpdate = cart.find((item) => item.id === id && item.color === color);                                   // On va chercher l'article à mettre à jour, c'est à dire un article ayant une id égale à l'id de l'article dont la quantité vient d'être modifié par l'utilisateur. On assigne le tout à la variable itemToUpdate. Autrement dit : Quand tu vois un changement sur le input va chercher dans le cart l'item qui a cet id.
+    itemToUpdate.quantity = Number(newValue)                                                                            // Une fois que l'article à mettre à jour (donc celui qu'on tente de modifier/manipuler) est trouvé, sa quantité devient désormais la nouvelle valeur entrée par l'utilisateur (forcément convertit en nombre grace à "Number")
     item.quantity = itemToUpdate.quantity                                                                               // La nouvelle valeur (de quantité) entrée par l'utilisateur sur un article donné, devient la quantité de cet article. 
     displayTotalQuantity()                                                                                              // On appelle la fonction displayTotalQuantity pour mettre à jour (recalculer) le nombre total (la quantité) d'articles ajoutés dans le panier suite aux modifications de l'input. 
     displayTotalPrice()                                                                                                 // On appelle la fonction displayTotalPrice pour mettre à jour (recalculer) le prix total d'articles ajoutés dans le panier suite aux modifications de l'input. 
-    saveNewDataToCache(item)                                                                                            // On appelle la fonction saveNewDataToCache pour sauvegarder la modification de la quantité dans le localStorage.
+    saveNewDataToStorage(item)                                                                                            // On appelle la fonction saveNewDataToStorage pour sauvegarder la modification de la quantité dans le localStorage.
 }
 
-function deleteDataFromCache(item) {                                                                                    // Gestion de la supression de l'article du localStorage.
+function deleteDataFromStorage(item) {                                                                                    // Gestion de la supression de l'article du localStorage.
     const key = `${item.id}-${item.color}`                                                                              // La suppression d'un article dans le localstorage se fera par l'identification préalable d'une clé composée de l'id et la couleur de l'article sélectionné par l'utilisateur.
     localStorage.removeItem(key)                                                                                        // On supprime l'article du localStorage en utilisant la méthode removeItem pour supprimer un élément du localStorage.
 }
 
-function saveNewDataToCache(item) {                                                                                     // Gestion de l'ajout/sauvegarde de nouvelles données dans le localStorage 
+function saveNewDataToStorage(item) {                                                                                     // Gestion de l'ajout/sauvegarde de nouvelles données dans le localStorage. Il prend en paramètre l'article sélectionné par l'utilisateur.  On en a besoin par exemple pour sauvegarder la modification de la quantité d'un article donné dans le localStorage. (Fonction appelée à la ligne 126 dns updatePriceandQuantity destinée à modifier la quantité d'un article donné)
     const dataToSave = JSON.stringify(item)                                                                             // On transforme l'article sélectionné par l'utilisateur en chaîne de caractères pour le stocker dans le localStorage. 
     const key = `${item.id}-${item.color}`                                                                              // L'ajout de nouvelles informations (modifications etc.) dans le localstorage se fera par l'identification préalable d'une clé composée de l'id puis de la couleur de l'article sélectionné par l'utilisateur. 
-    localStorage.setItem(key, dataToSave)
+    localStorage.setItem(key, dataToSave)                                                                               // On sauvegarde l'article dans le localStorage en utilisant la méthode setItem pour ajouter un élément dans le localStorage. On lui passe en paramètre la clé et la valeur (dataToSave).
 }
 
 function makeDescription(item) {                                                                                        // Creation de la fonction servant à afficher en html le descriptif/résumé de l'article ajouté dans le panier par l'utilisateur (nom de l'objet, la couleur choisie, son prix).
@@ -161,8 +161,8 @@ function displayArticle(article) {                                              
 function makeArticle(item) {                                                                                            // Creation de la fonction makeArticle pour créer un "article" (balise html) qui va contenir l'objet sélectionné par l'utilisateur.
     const article = document.createElement("article")
     article.classList.add("card__item")
-    article.dataset.id = item.id
-    article.dataset.color = item.color
+    article.dataset.id = item.id                                                                                        // On ajoute des attributs "data-id" et "data-color" à l'article (balise html) pour pouvoir les cibler plus facilement. Ces attributs vont nous servir à identifier chaque article de manière unique (grace à son id et la couleur choisie par l'utilisateur) pour pouvoir les modifier ou les supprimer plus facilement(cf. ligne 97) .dataset permet de créer des attributs personnalisés (data-*) dans le HTML. 
+    article.dataset.color = item.color                                                                                  
     return article
 }
 
@@ -188,7 +188,7 @@ function submitForm(e) {                                                        
     if (isEmailInvalid()) return                                                                              // Si l'email est invalide alors tu me le retourne (tu ne vas pas plus loin)
 
     const body = makeRequestBody()                                                                            // On appelle la fonction makeRequestBody pour créer le corps de la requête à envoyer à l'API. On lui passe en paramètre le corps de la requête (body) contenant les informations de contact et les produits sélectionnés par l'utilisateur.                                                              
-    fetch("http://localhost:3000/api/products/order", {                                                        
+    fetch("http://localhost:3000/api/products/order", {                                                       // On utilise la méthode fetch pour envoyer une requête à l'API. On lui passe en paramètre l'URL de l'API et un objet contenant les options de la requête.
         method: "POST",                                                                                       // On utilise la méthode POST pour envoyer des données (ici le body contenant les informations de contact et les produits sélectionnés par l'utilisateur) à l'API.      
         body: JSON.stringify(body),                                                                           // On va stringifyer le body du dessus (const body = makeRequestbody)
         headers: {                                                                                            // On définit les en-têtes de la requête (headers) pour indiquer que le corps de la requête est au format JSON.
@@ -233,7 +233,7 @@ function makeRequestBody() {                                                    
     const address = form.elements.address.value
     const city = form.elements.city.value
     const email = form.elements.email.value
-    const body = {                                                                                           
+    const body = {                                                                                            // On crée un objet body contenant les informations de contact et les produits sélectionnés par l'utilisateur.
         contact: {                                                                                            // On crée un objet contact contenant les informations de contact de l'utilisateur (firstName, lastName, address, city, email).
             firstName: firstName,                                                                               
             lastName: lastName,
@@ -241,13 +241,13 @@ function makeRequestBody() {                                                    
             city: city,
             email: email
         },
-        products: getIdsFromCache()                                                                           // On appelle la fonction getIdsFromCache pour récupérer les ids des produits présents dans le localStorage.
+        products: getIdsFromStorage()                                                                           // On appelle la fonction getIdsFromStorage pour récupérer les ids des produits présents dans le localStorage.
     }
     return body                                                                                               // On retourne le corps de la requête (body) contenant les informations de contact et les produits sélectionnés par l'utilisateur.
 }
 
 
-function getIdsFromCache() {                                                                                  // On veut récupérer les ids (les identifiants) des produits présents dans le localStorage pour les envoyer à l'API lors de la soumission du formulaire. On va donc créer une fonction qui va nous permettre de récupérer les ids des produits présents dans le localStorage.
+function getIdsFromStorage() {                                                                                  // On veut récupérer les ids (les identifiants) des produits présents dans le localStorage pour les envoyer à l'API lors de la soumission du formulaire. On crée donc une fonction qui va nous permettre de récupérer les ids des produits présents dans le localStorage.
     const numberOfProducts = localStorage.length                                                            
     const ids = []
     for (let i = 0; i < numberOfProducts; i++) {                                                              // On parcours le localStorage pour récupérer les ids des produits présents dans le localStorage.
